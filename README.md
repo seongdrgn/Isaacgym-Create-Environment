@@ -1,2 +1,2 @@
-# Isaacgym-CreateEnvironment
+# Isaacgym-Create Environment
 Creating Simulation Environment
