@@ -1,6 +1,8 @@
 # Isaacgym-Create Environment
 Creating Simulation Environment
 
+## Troubleshooting
+
 For Anaconda Users
 
 ```
