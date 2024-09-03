@@ -1,0 +1,39 @@
+model {
+  file: "model.sdf"
+}
+name: "Perricone_MD_Vitamin_C_Ester_Serum"
+description: "Perricone MD Vitamin C Ester Serum\nA vitamin c ester serum formulated to diminish the appearance of melasma, age spots, and brown spots."
+version: 1
+authors {
+  name: "Google"
+  email: "scanned-objects@google.com"
+}
+legal {
+  copyright: "Copyright 2020 Google LLC."
+  license: "Creative Commons Attribution 4.0 International"
+}
+annotations {
+  key: "brand"
+  value: "Perricone MD"
+}
+annotations {
+  key: "gtin"
+  value: "651473522607"
+}
+annotations {
+  key: "mpn"
+  value: "5226"
+}
+annotations {
+  key: "sku"
+  value: "5226"
+}
+compatibilities {
+  name: "Gazebo"
+  version {
+    major: 11
+  }
+}
+categories {
+  first: "Consumer Goods"
+}

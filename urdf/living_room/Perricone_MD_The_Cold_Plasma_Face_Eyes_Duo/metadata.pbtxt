@@ -1,0 +1,39 @@
+model {
+  file: "model.sdf"
+}
+name: "Perricone_MD_The_Cold_Plasma_Face_Eyes_Duo"
+description: "Perricone MD The Cold Plasma Face & Eyes Duo\nTwo best selling products to treat the 10 most visible signs of aging. With proprietary Cold Plasma delivery system."
+version: 1
+authors {
+  name: "Google"
+  email: "scanned-objects@google.com"
+}
+legal {
+  copyright: "Copyright 2020 Google LLC."
+  license: "Creative Commons Attribution 4.0 International"
+}
+annotations {
+  key: "brand"
+  value: "Perricone MD"
+}
+annotations {
+  key: "gtin"
+  value: "651473071587"
+}
+annotations {
+  key: "mpn"
+  value: "7158"
+}
+annotations {
+  key: "sku"
+  value: "7158"
+}
+compatibilities {
+  name: "Gazebo"
+  version {
+    major: 11
+  }
+}
+categories {
+  first: "Consumer Goods"
+}

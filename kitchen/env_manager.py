@@ -208,6 +208,22 @@ class Env1(EnvBase):
         self.coffeemug2_asset = self.gym.load_asset(self.sim, self.asset_root, coffeemug2_file, simple_options)
         self.coffeemug2_pose = gymapi.Transform(p=gymapi.Vec3(2.5,0.45,0.77),r=gymapi.Quat(0, 0, 0.7071068, 0.7071068))
 
+        gelatin_box_file = "urdf/ycb/009_gelatin_box/model.urdf"
+        self.gelatin_box_asset = self.gym.load_asset(self.sim, self.asset_root, gelatin_box_file, simple_options)
+        self.gelatin_box_pose = gymapi.Transform(p=gymapi.Vec3(2.8, 1.3, 0.825),r=gymapi.Quat.from_axis_angle(gymapi.Vec3(0.0, 0.0, 1.0), np.pi))
+
+        cracker_box_file = "urdf/ycb/003_cracker_box/model.urdf"
+        self.cracker_box_asset = self.gym.load_asset(self.sim, self.asset_root, cracker_box_file, simple_options)
+        self.cracker_pose = gymapi.Transform(p=gymapi.Vec3(2.8, 1.2, 0.825),r=gymapi.Quat.from_axis_angle(gymapi.Vec3(0.0, 0.0, 1.0), np.pi/2))
+
+        sugar_box_file = "urdf/ycb/004_sugar_box/model.urdf"
+        self.sugar_box_asset = self.gym.load_asset(self.sim, self.asset_root, sugar_box_file, simple_options)
+        self.sugar_box_pose = gymapi.Transform(p=gymapi.Vec3(2.8, 1.1, 0.825),r=gymapi.Quat.from_axis_angle(gymapi.Vec3(0.0, 0.0, 1.0), np.pi/2))
+
+        pudding_box_file = "urdf/ycb/008_pudding_box/model.urdf"
+        self.pudding_box_asset = self.gym.load_asset(self.sim, self.asset_root, pudding_box_file, simple_options)
+        self.pudding_box_pose = gymapi.Transform(p=gymapi.Vec3(2.8, 1.0, 0.825),r=gymapi.Quat.from_axis_angle(gymapi.Vec3(0.0, 0.0, 1.0), np.pi/2))
+
     def set_object_asset(self):
         object_options = gymapi.AssetOptions()
 
@@ -236,22 +252,6 @@ class Env1(EnvBase):
         x_lim = [2.5,2.975]
         num_objects = 11
         random_x, random_y = get_object_positions(num_objects, x_lim, y_lim)
-
-        gelatin_box_file = "urdf/ycb/009_gelatin_box/model.urdf"
-        self.gelatin_box_asset = self.gym.load_asset(self.sim, self.asset_root, gelatin_box_file, object_options)
-        self.gelatin_box_pose = gymapi.Transform(p=gymapi.Vec3(2.8, 1.3, 0.825),r=gymapi.Quat.from_axis_angle(gymapi.Vec3(0.0, 0.0, 1.0), np.pi))
-
-        cracker_box_file = "urdf/ycb/003_cracker_box/model.urdf"
-        self.cracker_box_asset = self.gym.load_asset(self.sim, self.asset_root, cracker_box_file, object_options)
-        self.cracker_pose = gymapi.Transform(p=gymapi.Vec3(2.8, 1.2, 0.825),r=gymapi.Quat.from_axis_angle(gymapi.Vec3(0.0, 0.0, 1.0), np.pi/2))
-
-        sugar_box_file = "urdf/ycb/004_sugar_box/model.urdf"
-        self.sugar_box_asset = self.gym.load_asset(self.sim, self.asset_root, sugar_box_file, object_options)
-        self.sugar_box_pose = gymapi.Transform(p=gymapi.Vec3(2.8, 1.1, 0.825),r=gymapi.Quat.from_axis_angle(gymapi.Vec3(0.0, 0.0, 1.0), np.pi/2))
-
-        pudding_box_file = "urdf/ycb/008_pudding_box/model.urdf"
-        self.pudding_box_asset = self.gym.load_asset(self.sim, self.asset_root, pudding_box_file, object_options)
-        self.pudding_box_pose = gymapi.Transform(p=gymapi.Vec3(2.8, 1.0, 0.825),r=gymapi.Quat.from_axis_angle(gymapi.Vec3(0.0, 0.0, 1.0), np.pi/2))
 
         chef_can_file = "urdf/ycb/002_master_chef_can/model.urdf"
         self.chef_can_asset = self.gym.load_asset(self.sim, self.asset_root, chef_can_file, object_options)
@@ -913,13 +913,9 @@ class Env4(EnvBase):
         self.nesquik_box_pose = gymapi.Transform(p=gymapi.Vec3(0.3,0.41,0.89),r=gymapi.Quat(0, 0, 0.7071068, 0.7071068))
 
         cabinet_file = "urdf/kitchen/WhiteCabinet/model_white_marble.urdf"
-        self.cabinet1_asset = self.gym.load_asset(self.sim, self.asset_root, cabinet_file, simple_options)
+        self.cabinet_asset = self.gym.load_asset(self.sim, self.asset_root, cabinet_file, simple_options)
         self.cabinet1_pose = gymapi.Transform(r=gymapi.Quat(0, 0, 0.7071068, 0.7071068),p=gymapi.Vec3(0.17,0.15,1.5))
-
-        self.cabinet2_asset = self.gym.load_asset(self.sim, self.asset_root, cabinet_file, simple_options)
         self.cabinet2_pose = gymapi.Transform(r=gymapi.Quat(0, 0, 0.7071068, 0.7071068),p=gymapi.Vec3(0.17,0.15+0.37,1.5))
-
-        self.cabinet3_asset = self.gym.load_asset(self.sim, self.asset_root, cabinet_file, simple_options)
         self.cabinet3_pose = gymapi.Transform(r=gymapi.Quat(0, 0, 0.7071068, 0.7071068),p=gymapi.Vec3(0.17,0.15+0.37+0.37,1.5))
 
     def set_object_asset(self):
@@ -975,9 +971,9 @@ class Env4(EnvBase):
         self.gym.set_actor_scale(env, drainer_handle, 1.3)
         cereal_box_handle = self.gym.create_actor(env, self.cereal_box_asset, self.cereal_box_pose, "cereal_box", num_env, 0)
         nesquik_box_handle = self.gym.create_actor(env, self.nesquik_box_asset, self.nesquik_box_pose, "nesquik_box", num_env, 0)
-        cabinet1_handle = self.gym.create_actor(env, self.cabinet1_asset, self.cabinet1_pose, "cabinet", num_env, 0)
-        cabinet2_handle = self.gym.create_actor(env, self.cabinet2_asset, self.cabinet2_pose, "cabinet", num_env, 0)
-        cabinet3_handle = self.gym.create_actor(env, self.cabinet3_asset, self.cabinet3_pose, "cabinet", num_env, 0)
+        cabinet1_handle = self.gym.create_actor(env, self.cabinet_asset, self.cabinet1_pose, "cabinet", num_env, 0)
+        cabinet2_handle = self.gym.create_actor(env, self.cabinet_asset, self.cabinet2_pose, "cabinet", num_env, 0)
+        cabinet3_handle = self.gym.create_actor(env, self.cabinet_asset, self.cabinet3_pose, "cabinet", num_env, 0)
         self.gym.set_actor_scale(env, cabinet1_handle, 0.4)
         self.gym.set_actor_scale(env, cabinet2_handle, 0.4)
         self.gym.set_actor_scale(env, cabinet3_handle, 0.4)
@@ -1119,6 +1115,15 @@ class Env5(EnvBase):
         self.desk_asset = self.gym.load_asset(self.sim, self.asset_root, desk_file, simple_options)
         self.desk_pose = gymapi.Transform(p=gymapi.Vec3(2.3,0.9,0.0), r=gymapi.Quat(0.5, 0.5, 0.5, 0.5))
 
+        cabinet_file = "urdf/kitchen/WhiteCabinet/model_black_marble.urdf"
+        self.cabinet_asset = self.gym.load_asset(self.sim, self.asset_root, cabinet_file, simple_options)
+        self.cabinet1_pose = gymapi.Transform(r=gymapi.Quat(0, 0, 0, 1),p=gymapi.Vec3(2.1, 2.91,1.5))
+        self.cabinet2_pose = gymapi.Transform(r=gymapi.Quat(0, 0, 0, 1),p=gymapi.Vec3(2.1-0.37, 2.91,1.5))
+        self.cabinet3_pose = gymapi.Transform(r=gymapi.Quat(0, 0, 0, 1),p=gymapi.Vec3(2.1-0.37-0.37, 2.91,1.5))
+        self.cabinet4_pose = gymapi.Transform(r=gymapi.Quat(0, 0, 0.7071068, 0.7071068),p=gymapi.Vec3(0.17,-0.3,1.5))
+        self.cabinet5_pose = gymapi.Transform(r=gymapi.Quat(0, 0, 0.7071068, 0.7071068),p=gymapi.Vec3(0.17,-0.3+0.37,1.5))
+        self.cabinet6_pose = gymapi.Transform(r=gymapi.Quat(0, 0, 0.7071068, 0.7071068),p=gymapi.Vec3(0.17,-0.3+0.37+0.37,1.5))
+
     def set_object_asset(self):
         print("object asset is set")
 
@@ -1156,6 +1161,19 @@ class Env5(EnvBase):
         rangehood_handle = self.gym.create_actor(env, self.rangehood_asset, self.rangehood_pose, "rangehood", num_env, 0)
         cooking_bench_handle = self.gym.create_actor(env, self.cooking_bench_asset, self.cooking_bench_pose, "cooking_bench", num_env, 0)
         desk_handle = self.gym.create_actor(env, self.desk_asset, self.desk_pose, "desk", num_env, 0)
+
+        cabinet1_handle = self.gym.create_actor(env, self.cabinet_asset, self.cabinet1_pose, "cabinet", num_env, 0)
+        cabinet2_handle = self.gym.create_actor(env, self.cabinet_asset, self.cabinet2_pose, "cabinet", num_env, 0)
+        cabinet3_handle = self.gym.create_actor(env, self.cabinet_asset, self.cabinet3_pose, "cabinet", num_env, 0)
+        cabinet4_handle = self.gym.create_actor(env, self.cabinet_asset, self.cabinet4_pose, "cabinet", num_env, 0)
+        cabinet5_handle = self.gym.create_actor(env, self.cabinet_asset, self.cabinet5_pose, "cabinet", num_env, 0)
+        cabinet6_handle = self.gym.create_actor(env, self.cabinet_asset, self.cabinet6_pose, "cabinet", num_env, 0)
+        self.gym.set_actor_scale(env, cabinet1_handle, 0.4)
+        self.gym.set_actor_scale(env, cabinet2_handle, 0.4)
+        self.gym.set_actor_scale(env, cabinet3_handle, 0.4)
+        self.gym.set_actor_scale(env, cabinet4_handle, 0.4)
+        self.gym.set_actor_scale(env, cabinet5_handle, 0.4)
+        self.gym.set_actor_scale(env, cabinet6_handle, 0.4)
 
 class KitchenEnvManager:
     def __init__(self, asset_root, gym, sim, device):

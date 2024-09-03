@@ -1,0 +1,35 @@
+model {
+  file: "model.sdf"
+}
+name: "Nescafe_Tasters_Choice_Instant_Coffee_Decaf_House_Blend_Light_7_oz"
+description: "Nescafe Taster\'s Choice Instant Coffee, Decaf House Blend, Light - 7 oz"
+version: 1
+authors {
+  name: "Google"
+  email: "scanned-objects@google.com"
+}
+legal {
+  copyright: "Copyright 2020 Google LLC."
+  license: "Creative Commons Attribution 4.0 International"
+}
+annotations {
+  key: "brand"
+  value: "Nescafe"
+}
+annotations {
+  key: "gtin"
+  value: "028000304300"
+}
+annotations {
+  key: "sku"
+  value: "028000304300-cloned-20141211161727860453"
+}
+compatibilities {
+  name: "Gazebo"
+  version {
+    major: 11
+  }
+}
+categories {
+  first: "Bottles and Cans and Cups"
+}

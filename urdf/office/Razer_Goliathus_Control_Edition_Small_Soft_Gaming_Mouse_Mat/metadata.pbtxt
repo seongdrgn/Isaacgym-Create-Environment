@@ -1,0 +1,38 @@
+model {
+  file: "model.sdf"
+}
+name: "Razer_Goliathus_Control_Edition_Small_Soft_Gaming_Mouse_Mat"
+description: "Razer Goliathus Control Edition - Small - Soft Gaming Mouse Mat\nEngineered to exceed the exacting demands of the world\'s top professional gamers, the highly-adaptable Razer Goliathus Control Edition gaming mouse mat is optimized for all mouse sensitivity settings and sensor types, with a rubber base for secure grip on smooth surfaces."
+version: 1
+authors {
+  name: "Google"
+  email: "scanned-objects@google.com"
+}
+legal {
+  copyright: "Copyright 2020 Google LLC."
+  license: "Creative Commons Attribution 4.0 International"
+}
+annotations {
+  key: "brand"
+  value: "Razer"
+}
+annotations {
+  key: "gtin"
+  value: "879862008550"
+}
+annotations {
+  key: "mpn"
+  value: "rz02-01070500-r3m1"
+}
+annotations {
+  key: "sku"
+  value: "879862008550"
+}
+compatibilities {
+  name: "Gazebo"
+  version {
+    major: 11
+  }
+}
+categories {
+}

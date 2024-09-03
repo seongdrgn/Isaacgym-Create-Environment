@@ -1,0 +1,35 @@
+model {
+  file: "model.sdf"
+}
+name: "Mattel_SKIP_BO_Card_Game"
+description: "Mattel SKIP BO Card Game"
+version: 1
+authors {
+  name: "Google"
+  email: "scanned-objects@google.com"
+}
+legal {
+  copyright: "Copyright 2020 Google LLC."
+  license: "Creative Commons Attribution 4.0 International"
+}
+annotations {
+  key: "brand"
+  value: "Mattel"
+}
+annotations {
+  key: "gtin"
+  value: "00078206020504"
+}
+annotations {
+  key: "sku"
+  value: "00078206020504"
+}
+compatibilities {
+  name: "Gazebo"
+  version {
+    major: 11
+  }
+}
+categories {
+  first: "Consumer Goods"
+}

@@ -1,0 +1,17 @@
+<?xml version="1.0" ?>
+<robot name="WoodenChair">
+  <link name="body">
+    <visual name="visual">
+    <origin xyz="0 0 0" rpy="0 0 -1.5708"/>
+      <geometry>
+        <mesh filename="meshes/WoodenChair.dae"/>
+      </geometry>
+    </visual>
+    <collision name="collision">
+    <origin xyz="0 0 0" rpy="0 0 -1.5708"/>
+      <geometry>
+        <mesh filename="meshes/WoodenChair_Col.dae"/>
+      </geometry>
+    </collision>
+  </link>
+</robot>
