@@ -137,12 +137,28 @@ class Env1(EnvBase):
         complex_options.vhacd_params.max_convex_hulls = 512
         complex_options.vhacd_params.convex_hull_approximation = False
 
-        self.wall_asset_1 = self.gym.create_box(self.sim,0.1,2.95,3.0,simple_options)
-        self.wall1_pose = gymapi.Transform(p=gymapi.Vec3(0.0,1.475,1.5))
+        # floor_file = "urdf/floor/wood1.urdf"
+        # floor_file = "urdf/floor/wood2.urdf"
+        floor_file = "urdf/floor/wood3.urdf"
+        self.floor_asset = self.gym.load_asset(self.sim, self.asset_root, floor_file, simple_options)
+        self.floor_pose1 = gymapi.Transform(p=gymapi.Vec3(0.5,0.5,0.01),r=gymapi.Quat(0.7071068, 0, 0, 0.7071068))
+        self.floor_pose2 = gymapi.Transform(p=gymapi.Vec3(1.5,0.5,0.01),r=gymapi.Quat(0.7071068, 0, 0, 0.7071068))
+        self.floor_pose3 = gymapi.Transform(p=gymapi.Vec3(2.5,0.5,0.01),r=gymapi.Quat(0.7071068, 0, 0, 0.7071068))
+        self.floor_pose4 = gymapi.Transform(p=gymapi.Vec3(0.5,-0.5,0.01),r=gymapi.Quat(0.7071068, 0, 0, 0.7071068))
+        self.floor_pose5 = gymapi.Transform(p=gymapi.Vec3(1.5,-0.5,0.01),r=gymapi.Quat(0.7071068, 0, 0, 0.7071068))
+        self.floor_pose6 = gymapi.Transform(p=gymapi.Vec3(2.5,-0.5,0.01),r=gymapi.Quat(0.7071068, 0, 0, 0.7071068))
+        self.floor_pose7 = gymapi.Transform(p=gymapi.Vec3(0.5,1.5,0.01),r=gymapi.Quat(0.7071068, 0, 0, 0.7071068))
+        self.floor_pose8 = gymapi.Transform(p=gymapi.Vec3(1.5,1.5,0.01),r=gymapi.Quat(0.7071068, 0, 0, 0.7071068))
+        self.floor_pose9 = gymapi.Transform(p=gymapi.Vec3(2.5,1.5,0.01),r=gymapi.Quat(0.7071068, 0, 0, 0.7071068))
+        self.floor_pose10 = gymapi.Transform(p=gymapi.Vec3(0.5,2.5,0.01),r=gymapi.Quat(0.7071068, 0, 0, 0.7071068))
+        self.floor_pose11 = gymapi.Transform(p=gymapi.Vec3(1.5,2.5,0.01),r=gymapi.Quat(0.7071068, 0, 0, 0.7071068))
+        self.floor_pose12 = gymapi.Transform(p=gymapi.Vec3(2.5,2.5,0.01),r=gymapi.Quat(0.7071068, 0, 0, 0.7071068))
 
+        self.wall_asset_1 = self.gym.create_box(self.sim,0.1,4.0,3.0,simple_options)
+        self.wall1_pose = gymapi.Transform(p=gymapi.Vec3(0.0,1.0,1.5))
+        self.wall3_pose = gymapi.Transform(p=gymapi.Vec3(3.0,1.0,1.5))
         self.wall_asset_2 = self.gym.create_box(self.sim,3.0,0.1,3.0,simple_options)
         self.wall2_pose = gymapi.Transform(p=gymapi.Vec3(1.5,3.0,1.5))
-        self.wall3_pose = gymapi.Transform(p=gymapi.Vec3(3.0,1.475,1.5))
 
         sink_file = "urdf/kitchen/KitchenSink/model.urdf"
         self.sink_asset = self.gym.load_asset(self.sim, self.asset_root, sink_file, complex_options)
@@ -269,6 +285,19 @@ class Env1(EnvBase):
         print("robot is created")
 
     def create_assets(self, env, num_env):
+        self.gym.create_actor(env, self.floor_asset, self.floor_pose1, "floor", num_env, 0)
+        self.gym.create_actor(env, self.floor_asset, self.floor_pose2, "floor", num_env, 0)
+        self.gym.create_actor(env, self.floor_asset, self.floor_pose3, "floor", num_env, 0)
+        self.gym.create_actor(env, self.floor_asset, self.floor_pose4, "floor", num_env, 0)
+        self.gym.create_actor(env, self.floor_asset, self.floor_pose5, "floor", num_env, 0)
+        self.gym.create_actor(env, self.floor_asset, self.floor_pose6, "floor", num_env, 0)
+        self.gym.create_actor(env, self.floor_asset, self.floor_pose7, "floor", num_env, 0)
+        self.gym.create_actor(env, self.floor_asset, self.floor_pose8, "floor", num_env, 0)
+        self.gym.create_actor(env, self.floor_asset, self.floor_pose9, "floor", num_env, 0)
+        self.gym.create_actor(env, self.floor_asset, self.floor_pose10, "floor", num_env, 0)
+        self.gym.create_actor(env, self.floor_asset, self.floor_pose11, "floor", num_env, 0)
+        self.gym.create_actor(env, self.floor_asset, self.floor_pose12, "floor", num_env, 0)
+
         wall1_handle = self.gym.create_actor(env, self.wall_asset_1, self.wall1_pose, "wall1", num_env, 0)
         wall2_handle = self.gym.create_actor(env, self.wall_asset_2, self.wall2_pose, "wall2", num_env, 0)
         wall3_handle = self.gym.create_actor(env, self.wall_asset_1, self.wall3_pose, "wall3", num_env, 0)
