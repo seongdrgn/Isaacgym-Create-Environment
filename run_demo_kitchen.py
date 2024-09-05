@@ -320,7 +320,7 @@ class SimEnv:
 
         # set environment manager
         self.kitchen_env_manager = KitchenEnvManager(asset_root=self.asset_root, gym=self.gym, sim=self.sim, device=self.device)
-        self.kitchen_env_manager.set_env("env2")
+        self.kitchen_env_manager.set_env("env5")
         """
         wall_type : ivory, white, green
         """
