@@ -17,11 +17,7 @@ import numpy as np
 import torch
 import pandas as pd
 import random
-<<<<<<< HEAD
 from kitchen.env_manager import KitchenEnvManager
-=======
-from sim_env.kitchen.env_manager import KitchenEnvManager
->>>>>>> origin/main
 
 def tensor_to_rotation_matrix(rot):
     # print(rot.shape)
@@ -63,11 +59,7 @@ class SimEnv:
         self.device = self.args.sim_device if self.args.use_gpu_pipeline else 'cpu'
 
         # modify asset root path & data save path
-<<<<<<< HEAD
         self.asset_root = "/home/kimsy/github_repo/sim_env"
-=======
-        self.asset_root = "/home/kimsy/isaacgym/IsaacGymEnvs/NIA_for_sample_dataset/code"
->>>>>>> origin/main
         self.save_dir = "/home/kimsy/isaacgym/IsaacGymEnvs/NIA_for_sample_dataset/code/sensor_data/test/0822/"
         if not os.path.exists(self.save_dir):
             os.makedirs(self.save_dir)
@@ -132,21 +124,12 @@ class SimEnv:
 
     def create_env(self):
         # set design asset
-<<<<<<< HEAD
         # self.kitchen_env_manager.set_current_robot_asset()
         # self.ur_dof_props = self.kitchen_env_manager.current_env.ur_dof_props
         # self.num_ur_dofs = self.kitchen_env_manager.current_env.num_ur_dofs
         # self.default_dof_pos = self.kitchen_env_manager.current_env.default_dof_pos
         # self.default_dof_state = self.kitchen_env_manager.current_env.default_dof_state
         # self.ur_gripper_index = self.kitchen_env_manager.current_env.ur_gripper_index
-=======
-        self.kitchen_env_manager.set_current_robot_asset()
-        self.ur_dof_props = self.kitchen_env_manager.current_env.ur_dof_props
-        self.num_ur_dofs = self.kitchen_env_manager.current_env.num_ur_dofs
-        self.default_dof_pos = self.kitchen_env_manager.current_env.default_dof_pos
-        self.default_dof_state = self.kitchen_env_manager.current_env.default_dof_state
-        self.ur_gripper_index = self.kitchen_env_manager.current_env.ur_gripper_index
->>>>>>> origin/main
 
         # self.ur_dof_props = ur_dof_props
         # self.num_ur_dofs = num_ur_dofs
@@ -354,19 +337,11 @@ class SimEnv:
 
         # set environment manager
         self.kitchen_env_manager = KitchenEnvManager(asset_root=self.asset_root, gym=self.gym, sim=self.sim, device=self.device)
-<<<<<<< HEAD
         self.kitchen_env_manager.set_env("env2")
         """
         wall_type : ivory, white, green
         """
         self.kitchen_env_manager.set_wall_type("ivory")
-=======
-        self.kitchen_env_manager.set_env("env5")
-        """
-        wall_type : ivory, white, green
-        """
-        self.kitchen_env_manager.set_wall_type("white")
->>>>>>> origin/main
         
         self.create_env()
 
