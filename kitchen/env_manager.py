@@ -187,8 +187,8 @@ class Env1(EnvBase):
         self.sauce2_pose = gymapi.Transform(p=gymapi.Vec3(2.2,1.6,0.73))
 
         # set random position for other objects
-        y_lim = [0.81,1.4]
-        x_lim = [2.35,2.975]
+        y_lim = [0.95,1.4]
+        x_lim = [2.35,2.6]
         num_objects = 11
         random_x, random_y = get_object_positions(num_objects, x_lim, y_lim)
 
@@ -405,7 +405,7 @@ class Env2(EnvBase):
 
         gravity_options = gymapi.AssetOptions()
 
-        floor_file = "urdf/floor/wood3.urdf"
+        floor_file = "urdf/floor/wood2.urdf"
         self.floor_asset = self.gym.load_asset(self.sim, self.asset_root, floor_file, simple_options)
         self.floor_pose1 = gymapi.Transform(p=gymapi.Vec3(0.5,0.5,0.01),r=gymapi.Quat(0.7071068, 0, 0, 0.7071068))
         self.floor_pose2 = gymapi.Transform(p=gymapi.Vec3(1.5,0.5,0.01),r=gymapi.Quat(0.7071068, 0, 0, 0.7071068))
@@ -876,7 +876,7 @@ class Env4(EnvBase):
 
         gravity_options = gymapi.AssetOptions()
 
-        floor_file = "urdf/floor/wood3.urdf"
+        floor_file = "urdf/floor/wood2.urdf"
         self.floor_asset = self.gym.load_asset(self.sim, self.asset_root, floor_file, simple_options)
         self.floor_pose1 = gymapi.Transform(p=gymapi.Vec3(0.5,0.5,0.01),r=gymapi.Quat(0.7071068, 0, 0, 0.7071068))
         self.floor_pose2 = gymapi.Transform(p=gymapi.Vec3(1.5,0.5,0.01),r=gymapi.Quat(0.7071068, 0, 0, 0.7071068))

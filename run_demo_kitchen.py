@@ -98,8 +98,8 @@ class SimEnv:
 
         # create viewer
         self.viewer = self.gym.create_viewer(self.sim, gymapi.CameraProperties())
-        self.viewer_pos = gymapi.Vec3(1.0, 1.0, 1.5)
-        self.viewer_target = gymapi.Vec3(3.0, 2.8, 0.8)
+        self.viewer_pos = gymapi.Vec3(1.5, -1.5, 2.8)
+        self.viewer_target = gymapi.Vec3(1.5, 2.0, 0.8)
         if self.viewer is None:
             raise Exception("Failed to create viewer")
 
@@ -320,7 +320,7 @@ class SimEnv:
 
         # set environment manager
         self.kitchen_env_manager = KitchenEnvManager(asset_root=self.asset_root, gym=self.gym, sim=self.sim, device=self.device)
-        self.kitchen_env_manager.set_env("env5")
+        self.kitchen_env_manager.set_env("env1")
         """
         wall_type : ivory, white, green
         """
