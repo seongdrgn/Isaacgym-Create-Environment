@@ -1,0 +1,39 @@
+model {
+  file: "model.sdf"
+}
+name: "Phillips_Caplets_Size_24"
+description: "Phillips Caplets Size: 24\nLaxative Dietary Supplement.  Genuine.  Comfortable relief.  Convenient.  Easy-to-swallow.  Stimulant free.  Cramp free.  Comfortable, cramp-free relief of occasional constipation.  Is the only line of stimulant-free laxatives for overnight relief.  Nothing\'s been proven more effective and gentle than Phillips.  Please visit our website at www.bayercare.com.  (This statement has not been evaluated by the Food and Drug Administration.  This product is not intended to diagnose, treat, cure, or prevent any disease.)  Made in USA."
+version: 1
+authors {
+  name: "Google"
+  email: "scanned-objects@google.com"
+}
+legal {
+  copyright: "Copyright 2020 Google LLC."
+  license: "Creative Commons Attribution 4.0 International"
+}
+annotations {
+  key: "brand"
+  value: "Philips"
+}
+annotations {
+  key: "gtin"
+  value: "00312843516731"
+}
+annotations {
+  key: "mpn"
+  value: "k800698"
+}
+annotations {
+  key: "sku"
+  value: "9286103_20130524_681670"
+}
+compatibilities {
+  name: "Gazebo"
+  version {
+    major: 11
+  }
+}
+categories {
+  first: "Consumer Goods"
+}

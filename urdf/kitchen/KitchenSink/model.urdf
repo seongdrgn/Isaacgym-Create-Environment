@@ -1,0 +1,17 @@
+<?xml version="1.0" ?>
+<robot name="KitchenSink">
+  <link name="link">
+    <visual name="visual">
+    <origin xyz="0 0 0" rpy="0 0 -1.5708"/>
+      <geometry>
+        <mesh filename="meshes/kitchenSink.dae"/>
+      </geometry>
+    </visual>
+    <collision name="collision">
+    <origin xyz="0 0 0" rpy="0 0 -1.5708"/>
+      <geometry>
+        <mesh filename="meshes/kitchenSink.dae"/>
+      </geometry>
+    </collision>
+  </link>
+</robot>

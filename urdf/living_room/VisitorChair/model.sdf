@@ -1,0 +1,23 @@
+<?xml version='1.0' encoding='utf-8'?>
+<robot name="VisitorChair">
+  <link name="body">
+    <pose>0 0 0 0 0 0</pose>
+
+    <visual name="visual">
+      <geometry>
+        <mesh>
+          <mesh filename="meshes/VisitorChair.obj"/>
+        </mesh>
+      </geometry>
+    </visual>
+
+    <collision name="collision">
+      <geometry>
+        <mesh>
+          <mesh filename="meshes/VisitorChair_Col.obj"/>
+        </mesh>
+      </geometry>
+    </collision>
+  </link>
+</model>
+

@@ -1,0 +1,13 @@
+<?xml version="1.0" ?>
+<robot name="window_curtains">
+  <link name="link">
+    <visual name="visual">
+      <geometry>
+        <box size="0.02 1.5676 2"/>
+      </geometry>
+      <material>
+        <texture filename="material/textures"/>
+      </material>
+    </visual>
+  </link>
+</robot>

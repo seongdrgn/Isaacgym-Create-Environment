@@ -1,0 +1,35 @@
+model {
+  file: "model.sdf"
+}
+name: "Philips_EcoVantage_43_W_Light_Bulbs_Natural_Light_2_pack"
+description: "Philips EcoVantage 43 W Light Bulbs, Natural Light - 2 pack"
+version: 1
+authors {
+  name: "Google"
+  email: "scanned-objects@google.com"
+}
+legal {
+  copyright: "Copyright 2020 Google LLC."
+  license: "Creative Commons Attribution 4.0 International"
+}
+annotations {
+  key: "brand"
+  value: "Philips"
+}
+annotations {
+  key: "gtin"
+  value: "00046677226954"
+}
+annotations {
+  key: "sku"
+  value: "00046677226954"
+}
+compatibilities {
+  name: "Gazebo"
+  version {
+    major: 11
+  }
+}
+categories {
+  first: "Consumer Goods"
+}

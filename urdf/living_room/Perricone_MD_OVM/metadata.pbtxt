@@ -1,0 +1,39 @@
+model {
+  file: "model.sdf"
+}
+name: "Perricone_MD_OVM"
+description: "Perricone MD OVM\nBio-matrix technology harnessed from the Eggshell Membrane to deliver the appearance of youthful volume, cushion and firmness."
+version: 1
+authors {
+  name: "Google"
+  email: "scanned-objects@google.com"
+}
+legal {
+  copyright: "Copyright 2020 Google LLC."
+  license: "Creative Commons Attribution 4.0 International"
+}
+annotations {
+  key: "brand"
+  value: "Perricone MD"
+}
+annotations {
+  key: "gtin"
+  value: "651473540007"
+}
+annotations {
+  key: "mpn"
+  value: "5400"
+}
+annotations {
+  key: "sku"
+  value: "5400"
+}
+compatibilities {
+  name: "Gazebo"
+  version {
+    major: 11
+  }
+}
+categories {
+  first: "Consumer Goods"
+}

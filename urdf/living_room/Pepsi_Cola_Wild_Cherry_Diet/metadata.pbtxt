@@ -1,0 +1,39 @@
+model {
+  file: "model.sdf"
+}
+name: "Pepsi_Cola_Wild_Cherry_Diet_12_12_fl_oz_355_ml_cans_144_fl_oz_426_lt"
+description: "Pepsi Cola, Wild Cherry, Diet - 12 - 12 fl oz (355 ml) cans [144 fl oz (4.26 lt)]\nWith other natural flavors. 0 calories per can.  Contains no juice.  Sugar free.  Very low sodium, 35 mg or less per 8 fl oz (240 ml).  Caffeine content: 38 mg /12 fl oz."
+version: 1
+authors {
+  name: "Google"
+  email: "scanned-objects@google.com"
+}
+legal {
+  copyright: "Copyright 2020 Google LLC."
+  license: "Creative Commons Attribution 4.0 International"
+}
+annotations {
+  key: "brand"
+  value: "Pepsi"
+}
+annotations {
+  key: "gtin"
+  value: "00012000810176"
+}
+annotations {
+  key: "mpn"
+  value: "0012000810176"
+}
+annotations {
+  key: "sku"
+  value: "9091050_20130419_30088962"
+}
+compatibilities {
+  name: "Gazebo"
+  version {
+    major: 11
+  }
+}
+categories {
+  first: "Consumer Goods"
+}

@@ -1,0 +1,35 @@
+model {
+  file: "model.sdf"
+}
+name: "Phillips_Colon_Health_Probiotic_Capsule"
+description: "Phillips Colon Health Probiotic Capsule"
+version: 1
+authors {
+  name: "Google"
+  email: "scanned-objects@google.com"
+}
+legal {
+  copyright: "Copyright 2020 Google LLC."
+  license: "Creative Commons Attribution 4.0 International"
+}
+annotations {
+  key: "brand"
+  value: "Phillips"
+}
+annotations {
+  key: "gtin"
+  value: "00312843557178"
+}
+annotations {
+  key: "sku"
+  value: "00312843557178"
+}
+compatibilities {
+  name: "Gazebo"
+  version {
+    major: 11
+  }
+}
+categories {
+  first: "Consumer Goods"
+}

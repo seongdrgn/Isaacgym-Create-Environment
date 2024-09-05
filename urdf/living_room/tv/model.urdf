@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<robot name="tv_65in">
+  <link name="link">
+    <visual name="visual">
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.05 1.45 0.83"/>
+      </geometry>
+      <!-- Material settings in URDF can be defined in a different manner, 
+           typically through textures applied in mesh files or materials defined in a URDF-compatible manner -->
+      <material name="tv_material">
+        <!-- Define your material settings or textures here, if applicable -->
+      </material>
+    </visual>
+  </link>
+  <!-- Static and allow_auto_disable are properties related to simulation environment setup and are not directly part of URDF. -->
+</robot>

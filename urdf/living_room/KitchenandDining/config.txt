@@ -1,0 +1,2 @@
+only visual
+no collision
