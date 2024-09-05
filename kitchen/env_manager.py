@@ -7,6 +7,7 @@ import numpy as np
 from isaacgym import gymapi
 from isaacgym.torch_utils import *
 import random
+import math
 
 class EnvBase:
     def __init__(self, asset_root, gym, sim, device):
@@ -30,26 +31,30 @@ class EnvBase:
     def create_assets(self):
         raise NotImplementedError("Should implement create_assets")
 
-def get_object_positions(num_objects, x_lim, y_lim):
-    x_min_diff = 0.03
-    y_min_diff = 0.03
+def distance(p1, p2):
+    return math.sqrt((p1[0] - p2[0]) ** 2 + (p1[1] - p2[1]) ** 2)
 
-    x_values = []
-    print("Caclulating random positions for objects...(1/2)")
-    while len(x_values) < num_objects:
+def generate_position(x_lim,y_lim,min_distance,positions):
+    while True:
         x = random.uniform(x_lim[0], x_lim[1])
-        if all(abs(x - x_val) >= x_min_diff for x_val in x_values):
-            x_values.append(x)
-
-    y_values = []
-    print("Caclulating random positions for objects...(2/2)")
-    while len(y_values) < num_objects:
         y = random.uniform(y_lim[0], y_lim[1])
-        if all(abs(y - y_val) >= y_min_diff for y_val in y_values):
-            y_values.append(y)
-    print("Random positions are calculated")
-    
-    return x_values, y_values
+        new_position = [x,y]
+
+        if all(distance(new_position, pos) >= min_distance for pos in positions):
+            return new_position
+
+def get_object_positions(num_objects, x_lim, y_lim):
+    min_distance = 0.1
+
+    positions = []
+    for i in range(num_objects):
+        print("Calculating object position...(%d/%d)"%(i+1,num_objects))
+        new_pos = generate_position(x_lim, y_lim, min_distance, positions)
+        positions.append(new_pos)
+    positions = np.array(positions)
+    print("Object positions are generated")
+
+    return positions[:,0], positions[:,1]
 
 class Env1(EnvBase):
     def set_robot_asset(self):
@@ -429,7 +434,7 @@ class Env2(EnvBase):
         self.fridge_asset = self.gym.load_asset(self.sim, self.asset_root, fridge_file, simple_options)
         self.fridge_pose = gymapi.Transform(r=gymapi.Quat.from_axis_angle(gymapi.Vec3(0.0, 0.0, 1.0), -np.pi/2),p=gymapi.Vec3(2.675,2.655,0.0))
 
-        desk_file = "urdf/kitchen/Desk/model.urdf"
+        desk_file = "urdf/kitchen/Desk/model_bright_marble.urdf"
         self.desk_asset = self.gym.load_asset(self.sim, self.asset_root, desk_file, simple_options)
         self.desk_pose = gymapi.Transform(r=gymapi.Quat.from_axis_angle(gymapi.Vec3(0.0, 0.0, 1.0), np.pi),p=gymapi.Vec3(2.7-0.125,1.3,0.0))
 
@@ -462,9 +467,9 @@ class Env2(EnvBase):
         self.shelf_pose = gymapi.Transform(r=gymapi.Quat(0, 0, -0.7071068, 0.7071068),p=gymapi.Vec3(2.8,1.2,0.73+0.5))
 
         # set random position for other objects
-        y_lim = [0.81,1.4]
-        x_lim = [2.35,2.975]
-        num_objects = 11
+        y_lim = [0.81,1.85]
+        x_lim = [2.3,2.89]
+        num_objects = 18
         random_x, random_y = get_object_positions(num_objects, x_lim, y_lim)
 
         tomato_soup_can_file = "urdf/kitchen/005_tomato_soup_can/model.urdf"
@@ -507,6 +512,38 @@ class Env2(EnvBase):
 
         self.potted_meat_can2_asset = self.gym.load_asset(self.sim, self.asset_root, potted_meat_can_file, gravity_options)
         self.potted_meat_can2_pose = gymapi.Transform(p=gymapi.Vec3(random_x[10],random_y[10], 0.825),r=gymapi.Quat.from_axis_angle(gymapi.Vec3(0.0, 0.0, 1.0), np.pi/2))
+
+        gelatin_box_file = "urdf/ycb/009_gelatin_box/model.urdf"
+        self.gelatin_box_asset = self.gym.load_asset(self.sim, self.asset_root, gelatin_box_file, gravity_options)
+        self.gelatin_box_pose = gymapi.Transform(p=gymapi.Vec3(random_x[11],random_y[11], 0.79),r=gymapi.Quat.from_axis_angle(gymapi.Vec3(0.0, 0.0, 1.0), np.pi))
+
+        cracker_box_file = "urdf/ycb/003_cracker_box/model.urdf"
+        self.cracker_box_asset = self.gym.load_asset(self.sim, self.asset_root, cracker_box_file, gravity_options)
+        self.cracker_pose = gymapi.Transform(p=gymapi.Vec3(random_x[12],random_y[12], 0.825),r=gymapi.Quat.from_axis_angle(gymapi.Vec3(0.0, 0.0, 1.0), np.pi/2))
+
+        sugar_box_file = "urdf/ycb/004_sugar_box/model.urdf"
+        self.sugar_box_asset = self.gym.load_asset(self.sim, self.asset_root, sugar_box_file, gravity_options)
+        self.sugar_box_pose = gymapi.Transform(p=gymapi.Vec3(random_x[12],random_y[12], 0.825),r=gymapi.Quat.from_axis_angle(gymapi.Vec3(0.0, 0.0, 1.0), np.pi/2))
+
+        pudding_box_file = "urdf/ycb/008_pudding_box/model.urdf"
+        self.pudding_box_asset = self.gym.load_asset(self.sim, self.asset_root, pudding_box_file, gravity_options)
+        self.pudding_box_pose = gymapi.Transform(p=gymapi.Vec3(random_x[13],random_y[13], 0.825),r=gymapi.Quat.from_axis_angle(gymapi.Vec3(0.0, 0.0, 1.0), np.pi/2))
+
+        yellow_bowl_file = "urdf/kitchen/yellow_bowl/model.urdf"
+        self.yellow_bowl_asset = self.gym.load_asset(self.sim, self.asset_root, yellow_bowl_file, gravity_options)
+        self.yellow_bowl_pose = gymapi.Transform(p=gymapi.Vec3(random_x[14],random_y[14],0.825))
+
+        bowl_designed_file = "urdf/kitchen/bowl_designed/model.urdf"
+        self.bowl_designed_asset = self.gym.load_asset(self.sim, self.asset_root, bowl_designed_file, gravity_options)
+        self.bowl_designed_pose = gymapi.Transform(p=gymapi.Vec3(random_x[15],random_y[15],0.825))
+
+        sauce1_file = "urdf/kitchen/sauce1/model.urdf"
+        self.sauce1_asset = self.gym.load_asset(self.sim, self.asset_root, sauce1_file, gravity_options)
+        self.sauce1_pose = gymapi.Transform(p=gymapi.Vec3(random_x[16],random_y[16],0.825))
+
+        sauce2_file = "urdf/kitchen/sauce2/model.urdf"
+        self.sauce2_asset = self.gym.load_asset(self.sim, self.asset_root, sauce2_file, gravity_options)
+        self.sauce2_pose = gymapi.Transform(p=gymapi.Vec3(random_x[17],random_y[17],0.825))
 
     def set_object_asset(self):
         print("object asset is set")
@@ -555,6 +592,14 @@ class Env2(EnvBase):
         tomato_soup_can2_handle = self.gym.create_actor(env, self.tomato_soup_can2_asset, self.tomato_soup_can2_pose, "tomato_soup_can2", num_env, 0)
         tuna_can2_handle = self.gym.create_actor(env, self.tuna_can2_asset, self.tuna_can2_pose, "tuna_can2", num_env, 0)
         potted_meat_can2_handle = self.gym.create_actor(env, self.potted_meat_can2_asset, self.potted_meat_can2_pose, "potted_meat_can2", num_env, 0)
+        gelatin_box_handle = self.gym.create_actor(env, self.gelatin_box_asset, self.gelatin_box_pose, "gelatin_box", num_env, 0)
+        cracker_handle = self.gym.create_actor(env, self.cracker_box_asset, self.cracker_pose, "cracker_box", num_env, 0)
+        sugar_box_handle = self.gym.create_actor(env, self.sugar_box_asset, self.sugar_box_pose, "sugar_box", num_env, 0)
+        pudding_box_handle = self.gym.create_actor(env, self.pudding_box_asset, self.pudding_box_pose, "pudding_box", num_env, 0)
+        yellow_bowl_handle = self.gym.create_actor(env, self.yellow_bowl_asset, self.yellow_bowl_pose, "yellow_bowl", num_env, 0)
+        bowl_designed_handle = self.gym.create_actor(env, self.bowl_designed_asset, self.bowl_designed_pose, "bowl_designed", num_env, 0)
+        sauce1_handle = self.gym.create_actor(env, self.sauce1_asset, self.sauce1_pose, "sauce1", num_env, 0)
+        sauce2_handle = self.gym.create_actor(env, self.sauce2_asset, self.sauce2_pose, "sauce2", num_env, 0)
 
 
 class Env3(EnvBase):

@@ -59,11 +59,7 @@ class SimEnv:
         self.device = self.args.sim_device if self.args.use_gpu_pipeline else 'cpu'
 
         # modify asset root path & data save path
-        self.asset_root = "/home/kimsy/github_repo/sim_env"
-        self.save_dir = "/home/kimsy/isaacgym/IsaacGymEnvs/NIA_for_sample_dataset/code/sensor_data/test/0822/"
-        if not os.path.exists(self.save_dir):
-            os.makedirs(self.save_dir)
-            print("Directory is created")
+        self.asset_root = "/home/kimsy/sim_env"
 
         # set sensor link
         self.net_force_sensor_names=["ur10_leftfinger_ft_sensor", "ur10_rightfinger_ft_sensor"]
@@ -124,19 +120,6 @@ class SimEnv:
 
     def create_env(self):
         # set design asset
-        # self.kitchen_env_manager.set_current_robot_asset()
-        # self.ur_dof_props = self.kitchen_env_manager.current_env.ur_dof_props
-        # self.num_ur_dofs = self.kitchen_env_manager.current_env.num_ur_dofs
-        # self.default_dof_pos = self.kitchen_env_manager.current_env.default_dof_pos
-        # self.default_dof_state = self.kitchen_env_manager.current_env.default_dof_state
-        # self.ur_gripper_index = self.kitchen_env_manager.current_env.ur_gripper_index
-
-        # self.ur_dof_props = ur_dof_props
-        # self.num_ur_dofs = num_ur_dofs
-        # self.default_dof_pos = default_dof_pos
-        # self.default_dof_state = default_dof_state
-        # self.ur_gripper_index = ur_gripper_index
-
         self.kitchen_env_manager.set_current_interior_asset()
         self.kitchen_env_manager.set_current_object_asset()
 
@@ -373,47 +356,11 @@ class SimEnv:
             """
             Data saving code here.
             """
-        #     self.frame += 1
-
-        #     if self.is_save:
-        #         # list_obj_pos = (cube_pos[0,:].detach().cpu().numpy().copy()).tolist()
-        #         # list_obj_rot = (cube_rot[0,:].detach().cpu().numpy().copy()).tolist()
-        #         list_ee_pos = (self.gripper_pos[0,:].detach().cpu().numpy().copy()).tolist()
-        #         list_ee_rot = (self.gripper_rot[0,:].detach().cpu().numpy().copy()).tolist()
-        #         list_dof_pos = (self.dof_pos.squeeze(-1)[0,:].detach().cpu().numpy().copy()).tolist()
-        #         list_dof_vel = (self.dof_vel.squeeze(-1)[0,:].detach().cpu().numpy().copy()).tolist()
-        #         list_dof_tor = (self.dof_force[0,:].detach().cpu().numpy().copy()).tolist()
-        #         #list_ee_force = (ee_local_force.detach().cpu().numpy().copy()).tolist()
-        #         list_ee_force = (self.fsdata[0,:3].detach().cpu().numpy().copy()).tolist()
-        #         list_ee_angvel = (self.ee_angvel[0,:].detach().cpu().numpy().copy()).tolist()
-        #         list_contact_1_force = (self.gripper_left_local_force.detach().cpu().numpy().copy()).tolist()
-        #         list_contact_2_force = (self.gripper_right_local_force.detach().cpu().numpy().copy()).tolist()
-
-        #         row = [self.frame] \
-        #                 + list_ee_pos + list_ee_rot \
-        #                 + list_dof_pos \
-        #                 + list_dof_vel \
-        #                 + list_dof_tor \
-        #                 + list_ee_force \
-        #                 + list_ee_angvel \
-        #                 + list_contact_1_force \
-        #                 + list_contact_2_force
-        #                 # + list_obj_pos + list_obj_rot \
-        #         self.dataframe.loc[self.frame] = row
-
-        # if self.is_save:
-        #     _dir = self.save_dir + 'test_data_cube_no_trans.csv'
-        #     self.dataframe.to_csv(_dir, index=False)
-        #     print("Data saved to joint_data.csv")
         
         # clean up
         self.gym.destroy_viewer(self.viewer)
         self.gym.destroy_sim(self.sim)
 
 if __name__ == "__main__":
-    # torch.cuda.init()
-    # os.environ['CUDA_LAUNCH_BLOCKING'] = '1'
-    # os.environ["CUDA_VISIBLE_DEVICES"] = "0"
-    # os.environ["TORCH_USE_CUDA_DSA"] = '1'
     sim_env = SimEnv()
     sim_env.run_sim()
