@@ -18,7 +18,11 @@ import torch
 import pandas as pd
 import random
 <<<<<<< HEAD
+<<<<<<< HEAD
 from office.env_manager import OfficeEnvManager
+=======
+from sim_env.office.env_manager import OfficeEnvManager
+>>>>>>> origin/main
 =======
 from sim_env.office.env_manager import OfficeEnvManager
 >>>>>>> origin/main
@@ -342,17 +346,23 @@ class SimEnv:
         # set environment manager
         self.office_env_manager = OfficeEnvManager(asset_root=self.asset_root, gym=self.gym, sim=self.sim, device=self.device)
 <<<<<<< HEAD
+<<<<<<< HEAD
         self.office_env_manager.set_env("env4")
         """
         wall_type : ivory, white, green
         """
         self.office_env_manager.set_wall_type("ivory")
 =======
+=======
+>>>>>>> origin/main
         self.office_env_manager.set_env("env2")
         """
         wall_type : ivory, white, green
         """
         self.office_env_manager.set_wall_type("white")
+<<<<<<< HEAD
+>>>>>>> origin/main
+=======
 >>>>>>> origin/main
         
         self.create_env()

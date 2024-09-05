@@ -18,7 +18,11 @@ import torch
 import pandas as pd
 import random
 <<<<<<< HEAD
+<<<<<<< HEAD
 from living_room.env_manager import LivingRoomEnvManager
+=======
+from sim_env.living_room.env_manager import LivingRoomEnvManager
+>>>>>>> origin/main
 =======
 from sim_env.living_room.env_manager import LivingRoomEnvManager
 >>>>>>> origin/main
@@ -346,7 +350,11 @@ class SimEnv:
         wall_type : ivory, white, green
         """
 <<<<<<< HEAD
+<<<<<<< HEAD
         self.livingroom_env_manager.set_wall_type("ivory")
+=======
+        self.livingroom_env_manager.set_wall_type("white")
+>>>>>>> origin/main
 =======
         self.livingroom_env_manager.set_wall_type("white")
 >>>>>>> origin/main
