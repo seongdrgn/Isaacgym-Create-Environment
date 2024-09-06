@@ -16,7 +16,9 @@ For changing interior of the environment, edit below code in ```run_demo_kitchen
 Edit : ```self.kitchen_env_manager.set_env("env5")```
 > If users want to change interior "env5" to "env1", just edit the code.
 >
-> ```self.kitchen_env_manager.set_env("env1")```
+> ```ruby
+> self.kitchen_env_manager.set_env("env1")
+> ```
 >
 > This function is same for all concepts of environments.
 >
@@ -28,7 +30,9 @@ Additionally, users can change wall color to edit the code in ```run_demo_kitche
 Edit : ```self.kitchen_env_manager.set_wall_type("white")```
 > If users want to change wall color "white" to "gray", just edit the code.
 >
-> ```self.kitchen_env_manager.set_wall_type("gray")```
+> ```ruby
+> self.kitchen_env_manager.set_wall_type("gray")
+> ```
 >
 > This function is also same for all concepts of environments.
 >
@@ -49,15 +53,21 @@ Edit : ```floor_file = "urdf/floor/wood1.urdf"``` in ```def set_interior_asset(s
 
 ### Kitchen
 
-```python run_demo_kitchen.py```
+```ruby
+python run_demo_kitchen.py
+```
 
 ### Office
 
-```python run_demo_office.py```
+```ruby
+python run_demo_office.py
+```
 
 ### Living Room
 
-```python run_demo_livingroom.py```
+```ruby
+python run_demo_livingroom.py
+```
 
 
 ## Troubleshooting
