@@ -3,7 +3,7 @@
 Utilize objects in [Google Scanned Objects](https://app.gazebosim.org/GoogleResearch/fuel/collections/Scanned%20Objects%20by%20Google%20Research), [YCB Dataset](https://www.ycbbenchmarks.com/object-set/) and [Objaverse Dataset](https://objaverse.allenai.org/objaverse-1.0).
 
 <details>
-<summary>Click to check out example environments</summary>
+<summary>Click to see example environments</summary>
 <div markdown="1">
 
 * Kitchen
