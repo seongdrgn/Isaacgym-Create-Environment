@@ -20,6 +20,19 @@ Utilize objects in [Google Scanned Objects](https://app.gazebosim.org/GoogleRese
 </div>
 </details>
 
+## Installation
+* Install prerequisites:
+  
+  [Anaconda for linux](https://www.anaconda.com/download/#linux)
+  
+  [IssacGym](https://developer.nvidia.com/isaac-gym)
+
+* After install prerequisites, modify the
+  ```ruby
+  self.asset_root = "/home/your/asset/root/path"
+  ```
+   in each ```run_demo.py```files.
+
 ## Domain Transformation
 
 For changing interior of the environment, edit below code in ```run_demo_kitchen.py``` file.
