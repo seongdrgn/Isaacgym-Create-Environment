@@ -74,6 +74,8 @@ class Env1(EnvBase):
         simple_options = gymapi.AssetOptions()
         simple_options.fix_base_link = True
 
+        gravity_options = gymapi.AssetOptions()
+
         complex_options = gymapi.AssetOptions()
         complex_options.fix_base_link = True
         complex_options.vhacd_enabled = True
@@ -138,15 +140,15 @@ class Env1(EnvBase):
         self.pad_pose = gymapi.Transform(p=gymapi.Vec3(0.55,2.43,0.825),r=gymapi.Quat.from_axis_angle(gymapi.Vec3(0.0, 0.0, 1.0), np.pi/2))
 
         keyboard_file = "urdf/office/Kanex_MultiSync_Wireless_Keyboard/model.urdf"
-        self.keyboard_asset = self.gym.load_asset(self.sim, self.asset_root, keyboard_file, simple_options)
+        self.keyboard_asset = self.gym.load_asset(self.sim, self.asset_root, keyboard_file, gravity_options)
         self.keyboard_pose = gymapi.Transform(p=gymapi.Vec3(0.55,2.0,0.825),r=gymapi.Quat.from_axis_angle(gymapi.Vec3(0.0, 0.0, 1.0), np.pi/2))
 
         power_strip_file = "urdf/office/18_Power_strip/model.urdf"
-        self.power_strip_asset = self.gym.load_asset(self.sim, self.asset_root, power_strip_file, simple_options)
+        self.power_strip_asset = self.gym.load_asset(self.sim, self.asset_root, power_strip_file, gravity_options)
         self.power_strip_pose = gymapi.Transform(p=gymapi.Vec3(0.1,1.48,0.825),r=gymapi.Quat.from_axis_angle(gymapi.Vec3(0.0, 0.0, 1.0), -np.pi/2))
 
         xylitol_file = "urdf/office/Xyli_Pure_Xylitol/model.urdf"
-        self.xylitol_asset = self.gym.load_asset(self.sim, self.asset_root, xylitol_file, simple_options)
+        self.xylitol_asset = self.gym.load_asset(self.sim, self.asset_root, xylitol_file, gravity_options)
         self.xylitol_pose = gymapi.Transform(p=gymapi.Vec3(0.23,1.6,0.625),r=gymapi.Quat.from_axis_angle(gymapi.Vec3(0.0, 0.0, 1.0), np.pi/2))
 
         germanium_file = "urdf/office/Germanium_GE132/model.urdf"
