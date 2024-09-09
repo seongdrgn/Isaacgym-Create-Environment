@@ -1,8 +1,13 @@
 # Create Simulation Environments using IsaacGym
 ## 3 Concepts of simulation environments
+### Utilize objects in [Google Scanned Objects](https://app.gazebosim.org/GoogleResearch/fuel/collections/Scanned%20Objects%20by%20Google%20Research) and [YCB Dataset](https://www.ycbbenchmarks.com/object-set/)
 
 * Kitchen
+
+> <img src="https://github.com/user-attachments/assets/b4c4f9b7-a315-4227-9f17-8b04a4d20730" width="340" height="180">  <img src="https://github.com/user-attachments/assets/3c7b6f94-4487-48a8-8624-b26d6ab891fe" width="340" height="180">  <img src="https://github.com/user-attachments/assets/734c14f3-c60d-47eb-b378-097a7b927763" width="340" height="180">  <img src="https://github.com/user-attachments/assets/964b6f9f-36ae-4fee-b011-837a34a2576f" width="340" height="180">  <img src="https://github.com/user-attachments/assets/0a1f6b25-0c41-4f71-8501-acfee4bc67e8" width="340" height="180"> 
+  
 * Office
+
 * Living Room
 
 ## Domain Transformation
@@ -12,7 +17,9 @@ For changing interior of the environment, edit below code in ```run_demo_kitchen
 Edit : ```self.kitchen_env_manager.set_env("env5")```
 > If users want to change interior "env5" to "env1", just edit the code.
 >
-> ```self.kitchen_env_manager.set_env("env1")```
+> ```ruby
+> self.kitchen_env_manager.set_env("env1")
+> ```
 >
 > This function is same for all concepts of environments.
 >
@@ -24,7 +31,9 @@ Additionally, users can change wall color to edit the code in ```run_demo_kitche
 Edit : ```self.kitchen_env_manager.set_wall_type("white")```
 > If users want to change wall color "white" to "gray", just edit the code.
 >
-> ```self.kitchen_env_manager.set_wall_type("gray")```
+> ```ruby
+> self.kitchen_env_manager.set_wall_type("gray")
+> ```
 >
 > This function is also same for all concepts of environments.
 >
@@ -45,15 +54,21 @@ Edit : ```floor_file = "urdf/floor/wood1.urdf"``` in ```def set_interior_asset(s
 
 ### Kitchen
 
-```python run_demo_kitchen.py```
+```ruby
+python run_demo_kitchen.py
+```
 
 ### Office
 
-```python run_demo_office.py```
+```ruby
+python run_demo_office.py
+```
 
 ### Living Room
 
-```python run_demo_livingroom.py```
+```ruby
+python run_demo_livingroom.py
+```
 
 
 ## Troubleshooting
