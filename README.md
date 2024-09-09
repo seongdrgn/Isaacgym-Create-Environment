@@ -12,6 +12,8 @@ Utilize objects in [Google Scanned Objects](https://app.gazebosim.org/GoogleRese
   
 * Office
 
+> <img src="https://github.com/user-attachments/assets/762e38bb-2de0-4b3e-9868-824009c2154c" width="340" height="180">  <img src="https://github.com/user-attachments/assets/13c35292-0c3f-4569-a2f1-219e42620f94" width="340" height="180">  <img src="https://github.com/user-attachments/assets/87bb13b4-6704-42e5-aa9a-da40fd7a4a03" width="340" height="180">  <img src="https://github.com/user-attachments/assets/d6c106c1-b964-45ea-9bb5-d20e9accae97" width="340" height="180">  <img src="https://github.com/user-attachments/assets/3ea84cc3-00ef-4da2-9dc0-dc31457ea5c2" width="340" height="180"> 
+
 * Living Room
 
 > <img src="https://github.com/user-attachments/assets/e3e8083a-0ab8-4dbf-a33b-6b5f05190160" width="340" height="180">  <img src="https://github.com/user-attachments/assets/3d6eb4ae-df33-43c5-82e1-eef2ce269e02" width="340" height="180">  <img src="https://github.com/user-attachments/assets/2d824dce-16bc-4454-9cbd-8853b9cfea61" width="340" height="180">  <img src="https://github.com/user-attachments/assets/7dd8086d-7710-4311-b2fd-fad083965851" width="340" height="180">  <img src="https://github.com/user-attachments/assets/8d32a739-7281-4833-a40e-b3496a886545" width="340" height="180">
