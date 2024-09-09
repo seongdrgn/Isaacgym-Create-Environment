@@ -1,6 +1,8 @@
 # Create Simulation Environments using IsaacGym
 ## 3 Concepts of simulation environments
-### Utilize objects in [Google Scanned Objects](https://app.gazebosim.org/GoogleResearch/fuel/collections/Scanned%20Objects%20by%20Google%20Research) and [YCB Dataset](https://www.ycbbenchmarks.com/object-set/)
+#### Utilize objects in [Google Scanned Objects](https://app.gazebosim.org/GoogleResearch/fuel/collections/Scanned%20Objects%20by%20Google%20Research), [YCB Dataset](https://www.ycbbenchmarks.com/object-set/) and [Objaverse Dataset](https://objaverse.allenai.org/objaverse-1.0)
+
+#### Example Environment
 
 * Kitchen
 
