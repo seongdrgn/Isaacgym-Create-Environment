@@ -1424,4 +1424,5 @@ class KitchenEnvManager:
         self.current_env.create_assets(env, num_env)
 
     def set_wall_type(self, wall_type):
+        print(f"Wall type is set to {wall_type}")
         self.current_env.set_wall_type(wall_type)    

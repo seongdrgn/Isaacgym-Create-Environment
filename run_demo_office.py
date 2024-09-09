@@ -17,15 +17,9 @@ import numpy as np
 import torch
 import pandas as pd
 import random
-<<<<<<< HEAD
-<<<<<<< HEAD
+
 from office.env_manager import OfficeEnvManager
-=======
-from sim_env.office.env_manager import OfficeEnvManager
->>>>>>> origin/main
-=======
-from sim_env.office.env_manager import OfficeEnvManager
->>>>>>> origin/main
+
 
 def tensor_to_rotation_matrix(rot):
     # print(rot.shape)
@@ -67,7 +61,7 @@ class SimEnv:
         self.device = self.args.sim_device if self.args.use_gpu_pipeline else 'cpu'
 
         # modify asset root path & data save path
-        self.asset_root = "/home/kimsy/isaacgym/IsaacGymEnvs/NIA_for_sample_dataset/code"
+        self.asset_root = "/home/kimsy/sim_env"
         self.save_dir = "/home/kimsy/isaacgym/IsaacGymEnvs/NIA_for_sample_dataset/code/sensor_data/test/0822/"
         if not os.path.exists(self.save_dir):
             os.makedirs(self.save_dir)
@@ -110,8 +104,8 @@ class SimEnv:
 
         # create viewer
         self.viewer = self.gym.create_viewer(self.sim, gymapi.CameraProperties())
-        self.viewer_pos = gymapi.Vec3(1.0, 1.0, 1.5)
-        self.viewer_target = gymapi.Vec3(3.0, 2.8, 0.8)
+        self.viewer_pos = gymapi.Vec3(1.5, -1.5, 2.8)
+        self.viewer_target = gymapi.Vec3(1.5, 2.0, 0.8)
         if self.viewer is None:
             raise Exception("Failed to create viewer")
 
@@ -345,25 +339,11 @@ class SimEnv:
 
         # set environment manager
         self.office_env_manager = OfficeEnvManager(asset_root=self.asset_root, gym=self.gym, sim=self.sim, device=self.device)
-<<<<<<< HEAD
-<<<<<<< HEAD
-        self.office_env_manager.set_env("env4")
+        self.office_env_manager.set_env("env5")
         """
         wall_type : ivory, white, green
         """
-        self.office_env_manager.set_wall_type("ivory")
-=======
-=======
->>>>>>> origin/main
-        self.office_env_manager.set_env("env2")
-        """
-        wall_type : ivory, white, green
-        """
-        self.office_env_manager.set_wall_type("white")
-<<<<<<< HEAD
->>>>>>> origin/main
-=======
->>>>>>> origin/main
+        self.office_env_manager.set_wall_type("green")
         
         self.create_env()
 

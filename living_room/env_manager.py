@@ -1,7 +1,8 @@
 """
 date: 2024.08.27
 author: Seongyong Kim
-description: kitchen environment class
+collaborator: Youngchae Son
+description: living room environment class
 """
 import numpy as np
 from isaacgym import gymapi
@@ -1174,4 +1175,5 @@ class LivingRoomEnvManager:
         self.current_env.create_assets(env, num_env)
 
     def set_wall_type(self, wall_type):
+        print(f"Wall type is set to {wall_type}")
         self.current_env.set_wall_type(wall_type)
