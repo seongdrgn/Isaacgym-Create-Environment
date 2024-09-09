@@ -1,0 +1,35 @@
+model {
+  file: "model.sdf"
+}
+name: "HAMMER_PEG"
+description: "HAMMER PEG\nA four-hole wooden board with a wooden mallet for hammering practice. Children can turn it over and start the fun all over again."
+version: 1
+authors {
+  name: "Google"
+  email: "scanned-objects@google.com"
+}
+legal {
+  copyright: "Copyright 2020 Google LLC."
+  license: "Creative Commons Attribution 4.0 International"
+}
+annotations {
+  key: "brand"
+  value: "PlanToys"
+}
+annotations {
+  key: "mpn"
+  value: "5126"
+}
+annotations {
+  key: "sku"
+  value: "0512600"
+}
+compatibilities {
+  name: "Gazebo"
+  version {
+    major: 11
+  }
+}
+categories {
+  first: "Toys"
+}

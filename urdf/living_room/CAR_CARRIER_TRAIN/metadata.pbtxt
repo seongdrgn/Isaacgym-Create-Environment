@@ -1,0 +1,35 @@
+model {
+  file: "model.sdf"
+}
+name: "CAR_CARRIER_TRAIN"
+description: "CAR CARRIER TRAIN\nThe Car Carrier Train is a great eco-friendly addition to any rail set. This item is compatible with the rest of the PlanCity line."
+version: 1
+authors {
+  name: "Google"
+  email: "scanned-objects@google.com"
+}
+legal {
+  copyright: "Copyright 2020 Google LLC."
+  license: "Creative Commons Attribution 4.0 International"
+}
+annotations {
+  key: "brand"
+  value: "PlanToys"
+}
+annotations {
+  key: "mpn"
+  value: "6253"
+}
+annotations {
+  key: "sku"
+  value: "0625300"
+}
+compatibilities {
+  name: "Gazebo"
+  version {
+    major: 11
+  }
+}
+categories {
+  first: "Toys"
+}

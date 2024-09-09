@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<COLLADA xmlns="http://www.collada.org/2005/11/COLLADASchema" version="1.4.1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <asset>
+    <contributor>
+      <author>Blender User</author>
+      <authoring_tool>Blender 4.2.1 LTS commit date:2024-08-19, commit time:11:21, hash:396f546c9d82</authoring_tool>
+    </contributor>
+    <created>2024-09-05T17:30:42</created>
+    <modified>2024-09-05T17:30:42</modified>
+    <unit name="meter" meter="1"/>
+    <up_axis>Z_UP</up_axis>
+  </asset>
+  <library_effects>
+    <effect id="SquareShelf-effect">
+      <profile_COMMON>
+        <newparam sid="SquareShelf_Diffuse_png-surface">
+          <surface type="2D">
+            <init_from>SquareShelf_Diffuse_png</init_from>
+          </surface>
+        </newparam>
+        <newparam sid="SquareShelf_Diffuse_png-sampler">
+          <sampler2D>
+            <source>SquareShelf_Diffuse_png-surface</source>
+          </sampler2D>
+        </newparam>
+        <technique sid="common">
+          <lambert>
+            <emission>
+              <color sid="emission">0 0 0 1</color>
+            </emission>
+            <diffuse>
+              <texture texture="SquareShelf_Diffuse_png-sampler" texcoord="UVMap"/>
+            </diffuse>
+            <index_of_refraction>
+              <float sid="ior">1.45</float>
+            </index_of_refraction>
+          </lambert>
+        </technique>
+      </profile_COMMON>
+    </effect>
+  </library_effects>
+  <library_images>
+    <image id="SquareShelf_Diffuse_png" name="SquareShelf_Diffuse_png">
+      <init_from>wood.png</init_from>
+    </image>
+  </library_images>
+  <library_materials>
+    <material id="SquareShelf-material" name="SquareShelf">
+      <instance_effect url="#SquareShelf-effect"/>
+    </material>
+  </library_materials>
+  <library_geometries>
+    <geometry id="SquareShelf-mesh" name="SquareShelf">
+      <mesh>
+        <source id="SquareShelf-mesh-positions">
+          <float_array id="SquareShelf-mesh-positions-array" count="144">0.345013 -0.196035 0.03926396 0.345013 -0.196035 0.730271 0.382839 -0.196035 0.03926396 0.382839 -0.196035 0.730271 -0.345013 -0.196035 0.03926396 -0.345013 -0.196035 0.730271 -0.382839 -0.196035 0.03926396 -0.382839 -0.196035 0.730271 -0.345056 -0.1941879 0.392633 -0.345056 -0.1941879 0.402633 0.345047 -0.1941879 0.392633 0.345047 -0.1941879 0.402633 -0.384364 -0.199237 7.9e-4 -0.384364 -0.199237 0.03878998 0.384355 -0.199237 7.9e-4 0.384355 -0.199237 0.03878998 -0.384364 -0.199237 0.730955 -0.384364 -0.199237 0.768956 0.384355 -0.199237 0.730955 0.384355 -0.199237 0.768956 -0.005003988 -0.195957 0.730528 0.004995942 -0.195957 0.730528 -0.005003988 -0.195957 0.03952997 0.004995942 -0.195957 0.03952997 0.345013 0.190068 0.03926396 0.345013 0.190068 0.730271 0.382839 0.190068 0.03926396 0.382839 0.190068 0.730271 -0.345013 0.190068 0.03926396 -0.345013 0.190068 0.730271 -0.382839 0.190068 0.03926396 -0.382839 0.190068 0.730271 -0.345056 0.187665 0.392633 -0.345056 0.187665 0.402633 0.345047 0.187665 0.392633 0.345047 0.187665 0.402633 -0.384364 0.1926479 7.9e-4 -0.384364 0.1926479 0.03878998 0.384355 0.1926479 7.9e-4 0.384355 0.1926479 0.03878998 -0.384364 0.1926479 0.730955 -0.384364 0.1926479 0.768956 0.384355 0.1926479 0.730955 0.384355 0.1926479 0.768956 -0.005003988 0.185896 0.730528 0.004995942 0.185896 0.730528 -0.005003988 0.185896 0.03952997 0.004995942 0.185896 0.03952997</float_array>
+          <technique_common>
+            <accessor source="#SquareShelf-mesh-positions-array" count="48" stride="3">
+              <param name="X" type="float"/>
+              <param name="Y" type="float"/>
+              <param name="Z" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <source id="SquareShelf-mesh-normals">
+          <float_array id="SquareShelf-mesh-normals-array" count="18">0 -1 0 0 1 0 -1 0 0 1 0 0 0 0 -1 0 0 1</float_array>
+          <technique_common>
+            <accessor source="#SquareShelf-mesh-normals-array" count="6" stride="3">
+              <param name="X" type="float"/>
+              <param name="Y" type="float"/>
+              <param name="Z" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <source id="SquareShelf-mesh-map-0">
+          <float_array id="SquareShelf-mesh-map-0-array" count="324">0.152689 0.233466 0.140667 0.013852 0.152689 0.013852 0.454385 0.01304197 0.442363 0.232657 0.442363 0.01304197 0.408139 0.474232 0.411957 0.255486 0.411957 0.474243 0.971875 0.03470098 0.607428 0.01668494 0.971875 0.01668494 0.577261 0.261448 0.921545 0.278467 0.577261 0.278467 0.13846 0.47538 0.142283 0.256355 0.142283 0.475391 0.287421 0.013852 0.275399 0.233466 0.275399 0.013852 0.319653 0.232657 0.307631 0.01304197 0.319653 0.01304197 0.283276 0.255485 0.287095 0.474232 0.283276 0.474242 0.607428 0.238508 0.971875 0.220492 0.971875 0.238508 0.921546 0.45398 0.577261 0.470999 0.577261 0.45398 0.263325 0.256355 0.267148 0.475381 0.263325 0.475391 0.140667 0.233466 0.01795697 0.013852 0.140667 0.013852 0.152689 0.013852 0.275399 0.233466 0.152689 0.233466 0.454385 0.01304197 0.577095 0.232657 0.454385 0.232657 0.442363 0.232657 0.319653 0.01304197 0.442363 0.01304197 0.411957 0.255486 0.533001 0.474243 0.411957 0.474243 0.408139 0.474232 0.287095 0.255475 0.408139 0.255475 0.607428 0.03470098 0.589413 0.220492 0.589413 0.03470098 0.989891 0.03470098 0.971875 0.220492 0.971875 0.03470098 0.971875 0.03470098 0.607428 0.220492 0.607428 0.03470098 0.938565 0.278467 0.921546 0.45398 0.921545 0.278467 0.577261 0.278467 0.560242 0.45398 0.560242 0.278467 0.921545 0.278467 0.577261 0.45398 0.577261 0.278467 0.01676696 0.984942 0.974301 0.4968 0.974301 0.984942 0.142283 0.256355 0.263325 0.475391 0.142283 0.475391 0.13846 0.47538 0.01741796 0.256343 0.13846 0.256343 0.152689 0.233466 0.140667 0.233466 0.140667 0.013852 0.454385 0.01304197 0.454385 0.232657 0.442363 0.232657 0.408139 0.474232 0.408139 0.255475 0.411957 0.255486 0.971875 0.03470098 0.607428 0.03470098 0.607428 0.01668494 0.577261 0.261448 0.921545 0.261448 0.921545 0.278467 0.13846 0.47538 0.13846 0.256343 0.142283 0.256355 0.287421 0.013852 0.287421 0.233466 0.275399 0.233466 0.319653 0.232657 0.307631 0.232657 0.307631 0.01304197 0.283276 0.255485 0.287095 0.255475 0.287095 0.474232 0.607428 0.238508 0.607428 0.220492 0.971875 0.220492 0.921546 0.45398 0.921546 0.470999 0.577261 0.470999 0.263325 0.256355 0.267148 0.256344 0.267148 0.475381 0.140667 0.233466 0.01795697 0.233466 0.01795697 0.013852 0.152689 0.013852 0.275399 0.013852 0.275399 0.233466 0.454385 0.01304197 0.577095 0.01304197 0.577095 0.232657 0.442363 0.232657 0.319653 0.232657 0.319653 0.01304197 0.411957 0.255486 0.533001 0.255486 0.533001 0.474243 0.408139 0.474232 0.287095 0.474232 0.287095 0.255475 0.607428 0.03470098 0.607428 0.220492 0.589413 0.220492 0.989891 0.03470098 0.989891 0.220492 0.971875 0.220492 0.971875 0.03470098 0.971875 0.220492 0.607428 0.220492 0.938565 0.278467 0.938565 0.45398 0.921546 0.45398 0.577261 0.278467 0.577261 0.45398 0.560242 0.45398 0.921545 0.278467 0.921546 0.45398 0.577261 0.45398 0.01676696 0.984942 0.01676696 0.4968 0.974301 0.4968 0.142283 0.256355 0.263325 0.256355 0.263325 0.475391 0.13846 0.47538 0.01741796 0.47538 0.01741796 0.256343</float_array>
+          <technique_common>
+            <accessor source="#SquareShelf-mesh-map-0-array" count="162" stride="2">
+              <param name="S" type="float"/>
+              <param name="T" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <vertices id="SquareShelf-mesh-vertices">
+          <input semantic="POSITION" source="#SquareShelf-mesh-positions"/>
+        </vertices>
+        <triangles material="SquareShelf-material" count="54">
+          <input semantic="VERTEX" source="#SquareShelf-mesh-vertices" offset="0"/>
+          <input semantic="NORMAL" source="#SquareShelf-mesh-normals" offset="1"/>
+          <input semantic="TEXCOORD" source="#SquareShelf-mesh-map-0" offset="2" set="0"/>
+          <p>3 0 0 0 0 1 2 0 2 4 0 3 7 0 4 6 0 5 11 0 6 8 0 7 10 0 8 15 0 9 12 0 10 14 0 11 19 0 12 16 0 13 18 0 14 23 0 15 20 0 16 22 0 17 24 1 18 27 1 19 26 1 20 31 1 21 28 1 22 30 1 23 32 1 24 35 1 25 34 1 26 36 1 27 39 1 28 38 1 29 40 1 30 43 1 31 42 1 32 44 1 33 47 1 34 46 1 35 1 2 36 24 2 37 0 2 38 2 3 39 27 3 40 3 3 41 4 3 42 29 3 43 5 3 44 7 2 45 30 2 46 6 2 47 8 4 48 34 4 49 10 4 50 11 5 51 33 5 52 9 5 53 13 2 54 36 2 55 12 2 56 14 3 57 39 3 58 15 3 59 15 5 60 37 5 61 13 5 62 17 2 63 40 2 64 16 2 65 18 3 66 43 3 67 19 3 68 16 4 69 42 4 70 18 4 71 19 5 72 41 5 73 17 5 74 20 2 75 46 2 76 22 2 77 23 3 78 45 3 79 21 3 80 3 0 81 1 0 82 0 0 83 4 0 84 5 0 85 7 0 86 11 0 87 9 0 88 8 0 89 15 0 90 13 0 91 12 0 92 19 0 93 17 0 94 16 0 95 23 0 96 21 0 97 20 0 98 24 1 99 25 1 100 27 1 101 31 1 102 29 1 103 28 1 104 32 1 105 33 1 106 35 1 107 36 1 108 37 1 109 39 1 110 40 1 111 41 1 112 43 1 113 44 1 114 45 1 115 47 1 116 1 2 117 25 2 118 24 2 119 2 3 120 26 3 121 27 3 122 4 3 123 28 3 124 29 3 125 7 2 126 31 2 127 30 2 128 8 4 129 32 4 130 34 4 131 11 5 132 35 5 133 33 5 134 13 2 135 37 2 136 36 2 137 14 3 138 38 3 139 39 3 140 15 5 141 39 5 142 37 5 143 17 2 144 41 2 145 40 2 146 18 3 147 42 3 148 43 3 149 16 4 150 40 4 151 42 4 152 19 5 153 43 5 154 41 5 155 20 2 156 44 2 157 46 2 158 23 3 159 47 3 160 45 3 161</p>
+        </triangles>
+      </mesh>
+    </geometry>
+  </library_geometries>
+  <library_visual_scenes>
+    <visual_scene id="Scene" name="Scene">
+      <node id="SquareShelf" name="SquareShelf" type="NODE">
+        <matrix sid="transform">1 0 0 0 0 7.54979e-8 -1 0 0 1 7.54979e-8 0 0 0 0 1</matrix>
+        <instance_geometry url="#SquareShelf-mesh" name="SquareShelf">
+          <bind_material>
+            <technique_common>
+              <instance_material symbol="SquareShelf-material" target="#SquareShelf-material">
+                <bind_vertex_input semantic="UVMap" input_semantic="TEXCOORD" input_set="0"/>
+              </instance_material>
+            </technique_common>
+          </bind_material>
+        </instance_geometry>
+      </node>
+    </visual_scene>
+  </library_visual_scenes>
+  <scene>
+    <instance_visual_scene url="#Scene"/>
+  </scene>
+</COLLADA>

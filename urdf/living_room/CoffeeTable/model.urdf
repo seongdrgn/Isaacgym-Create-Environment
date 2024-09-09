@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<robot name="CoffeeTable">
+  <link name="body">
+    <visual>
+      <geometry>
+        <mesh filename="meshes/CoffeeTable.obj" scale="0.00817 0.00817 0.00817"/>
+      </geometry>
+    </visual>
+    <collision>
+      <geometry>
+        <mesh filename="meshes/CoffeeTable.obj" scale="0.00817 0.00817 0.00817"/>
+      </geometry>
+    </collision>
+  </link>
+</robot>

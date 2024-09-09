@@ -319,8 +319,6 @@ class Env1(EnvBase):
         tomato_soup_can_handle2 = self.gym.create_actor(env, self.tomato_soup_can2_asset, self.tomato_soup_can2_pose, "tomato_soup_can2", num_env, 0)
         tuna_can_handle2 = self.gym.create_actor(env, self.tuna_can2_asset, self.tuna_can2_pose, "tuna_can2", num_env, 0)
         potted_meat_can_handle2 = self.gym.create_actor(env, self.potted_meat_can2_asset, self.potted_meat_can2_pose, "potted_meat_can2", num_env, 0)
-        
-
 
 class Env2(EnvBase):
     def set_robot_asset(self):

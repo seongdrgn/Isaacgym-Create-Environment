@@ -1,0 +1,103 @@
+<COLLADA xmlns="http://www.collada.org/2005/11/COLLADASchema" version="1.4.1">
+  <asset>
+    <contributor>
+      <authoring_tool>Manual DAE creation</authoring_tool>
+    </contributor>
+    <created>2024-09-06T12:00:00</created>
+    <modified>2024-09-06T12:00:00</modified>
+    <unit name="meter" meter="1"/>
+    <up_axis>Z_UP</up_axis>
+  </asset>
+  
+  <library_geometries>
+    <geometry id="BoxGeometry" name="Box">
+      <mesh>
+        <source id="BoxPositions">
+          <!-- Box 정점 좌표 -->
+          <float_array id="BoxPositionsArray" count="24">
+            -0.025 -0.725 -0.415 0.025 -0.725 -0.415 0.025 0.725 -0.415 -0.025 0.725 -0.415  <!-- 앞면 -->
+            -0.025 -0.725 0.415 0.025 -0.725 0.415 0.025 0.725 0.415 -0.025 0.725 0.415  <!-- 뒷면 -->
+          </float_array>
+          <technique_common>
+            <accessor source="#BoxPositionsArray" count="8" stride="3">
+              <param name="X" type="float"/>
+              <param name="Y" type="float"/>
+              <param name="Z" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+
+        <source id="BoxUV">
+          <!-- 텍스처 좌표 -->
+          <float_array id="BoxUVArray" count="8">
+            0 0 1 0 1 1 0 1  <!-- 앞면 텍스처 좌표 -->
+          </float_array>
+          <technique_common>
+            <accessor source="#BoxUVArray" count="4" stride="2">
+              <param name="S" type="float"/>
+              <param name="T" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+
+        <vertices id="BoxVertices">
+          <input semantic="POSITION" source="#BoxPositions"/>
+        </vertices>
+
+        <!-- 앞면 정의 -->
+        <triangles count="2" material="BoxMaterial">
+          <input semantic="VERTEX" source="#BoxVertices" offset="0"/>
+          <input semantic="TEXCOORD" source="#BoxUV" offset="1" set="0"/>
+          <p>0 0 1 1 2 2 0 0 2 2 3 3</p>
+        </triangles>
+      </mesh>
+    </geometry>
+  </library_geometries>
+  
+  <library_materials>
+    <material id="BoxMaterial" name="BoxMaterial">
+      <instance_effect url="#BoxEffect"/>
+    </material>
+  </library_materials>
+  
+  <library_effects>
+    <effect id="BoxEffect">
+      <profile_COMMON>
+        <technique sid="COMMON">
+          <phong>
+            <diffuse>
+              <texture texture="BoxTexture" texcoord="UVSET0"/>
+            </diffuse>
+          </phong>
+        </technique>
+      </profile_COMMON>
+    </effect>
+  </library_effects>
+
+  <library_images>
+    <image id="BoxImage">
+      <init_from>path_to_your_image/image_file.png</init_from> <!-- 텍스처 이미지 경로 -->
+    </image>
+  </library_images>
+
+  <library_visual_scenes>
+    <visual_scene id="Scene" name="Scene">
+      <node id="BoxNode" name="Box">
+        <matrix>1 0 0 0  0 1 0 0  0 0 1 0  0 0 0 1</matrix>
+        <instance_geometry url="#BoxGeometry">
+          <bind_material>
+            <technique_common>
+              <instance_material symbol="BoxMaterial" target="#BoxMaterial">
+                <bind_vertex_input semantic="UVSET0" input_semantic="TEXCOORD" input_set="0"/>
+              </instance_material>
+            </technique_common>
+          </bind_material>
+        </instance_geometry>
+      </node>
+    </visual_scene>
+  </library_visual_scenes>
+
+  <scene>
+    <instance_visual_scene url="#Scene"/>
+  </scene>
+</COLLADA>

@@ -324,7 +324,7 @@ class SimEnv:
         """
         wall_type : ivory, white, green
         """
-        self.kitchen_env_manager.set_wall_type("ivory")
+        self.kitchen_env_manager.set_wall_type("white")
         
         self.create_env()
 

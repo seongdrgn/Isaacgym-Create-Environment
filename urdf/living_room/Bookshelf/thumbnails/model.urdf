@@ -1,0 +1,129 @@
+<robot name="Bookshelf">
+  <link name="link">
+    <inertial>
+      <mass value="1.0"/>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <inertia ixx="1" ixy="0" ixz="0" iyy="1" iyz="0" izz="1"/>
+    </inertial>
+
+    <!-- Back collision and visual -->
+    <collision name="back">
+      <origin xyz="0 0.005 0.6" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.9 0.01 1.2"/>
+      </geometry>
+    </collision>
+    <visual name="visual1">
+      <origin xyz="0 0.005 0.6" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.9 0.01 1.2"/>
+      </geometry>
+      <material name="wood">
+        <texture filename="bookshelf_diffuse.jpg"/>
+      </material>
+    </visual>
+
+    <!-- Left side collision and visual -->
+    <collision name="left_side">
+      <origin xyz="0.45 -0.195 0.6" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.02 0.4 1.2"/>
+      </geometry>
+    </collision>
+    <visual name="visual2">
+      <origin xyz="0.45 -0.195 0.6" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.02 0.4 1.2"/>
+      </geometry>
+      <material name="wood">
+        <texture filename="bookshelf_diffuse.jpg"/>
+      </material>
+    </visual>
+
+    <!-- Right side collision and visual -->
+    <collision name="right_side">
+      <origin xyz="-0.45 -0.195 0.6" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.02 0.4 1.2"/>
+      </geometry>
+    </collision>
+    <visual name="visual3">
+      <origin xyz="-0.45 -0.195 0.6" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.02 0.4 1.2"/>
+      </geometry>
+      <material name="wood">
+        <texture filename="bookshelf_diffuse.jpg"/>
+      </material>
+    </visual>
+
+    <!-- Bottom collision and visual -->
+    <collision name="bottom">
+      <origin xyz="0 -0.195 0.03" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.88 0.4 0.06"/>
+      </geometry>
+    </collision>
+    <visual name="visual4">
+      <origin xyz="0 -0.195 0.03" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.88 0.4 0.06"/>
+      </geometry>
+      <material name="wood">
+        <texture filename="bookshelf_diffuse.jpg"/>
+      </material>
+    </visual>
+
+    <!-- Top collision and visual -->
+    <collision name="top">
+      <origin xyz="0 -0.195 1.19" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.88 0.4 0.02"/>
+      </geometry>
+    </collision>
+    <visual name="visual5">
+      <origin xyz="0 -0.195 1.19" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.88 0.4 0.02"/>
+      </geometry>
+      <material name="wood">
+        <texture filename="bookshelf_diffuse.jpg"/>
+      </material>
+    </visual>
+
+    <!-- Low shelf collision and visual -->
+    <collision name="low_shelf">
+      <origin xyz="0 -0.195 0.43" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.88 0.4 0.02"/>
+      </geometry>
+    </collision>
+    <visual name="visual6">
+      <origin xyz="0 -0.195 0.43" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.88 0.4 0.02"/>
+      </geometry>
+      <material name="wood">
+        <texture filename="bookshelf_diffuse.jpg"/>
+      </material>
+    </visual>
+
+    <!-- High shelf collision and visual -->
+    <collision name="high_shelf">
+      <origin xyz="0 -0.195 0.8" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.88 0.4 0.02"/>
+      </geometry>
+    </collision>
+    <visual name="visual7">
+      <origin xyz="0 -0.195 0.8" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.88 0.4 0.02"/>
+      </geometry>
+      <material name="wood">
+        <texture filename="bookshelf_diffuse.jpg"/>
+      </material>
+    </visual>
+  </link>
+</robot>
+

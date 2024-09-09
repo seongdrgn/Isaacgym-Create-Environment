@@ -1,0 +1,35 @@
+model {
+  file: "model.sdf"
+}
+name: "MINI_FIRE_ENGINE"
+description: "MINI FIRE ENGINE\nThis fiery vehicle features a movable ladder and rotatable cab."
+version: 1
+authors {
+  name: "Google"
+  email: "scanned-objects@google.com"
+}
+legal {
+  copyright: "Copyright 2020 Google LLC."
+  license: "Creative Commons Attribution 4.0 International"
+}
+annotations {
+  key: "brand"
+  value: "PlanToys"
+}
+annotations {
+  key: "mpn"
+  value: "6320"
+}
+annotations {
+  key: "sku"
+  value: "0632001"
+}
+compatibilities {
+  name: "Gazebo"
+  version {
+    major: 11
+  }
+}
+categories {
+  first: "Toys"
+}

@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<robot name="tv_65in_emissive">
+  <link name="link">
+    <visual>
+      <geometry>
+        <box size="0.05 1.45 0.83"/>
+      </geometry>
+      <material name="material_1">
+        <texture filename="material/textures/texture.png"/>
+      </material>
+    </visual>
+    <collision>
+      <geometry>
+        <box size="0.05 1.45 0.83"/>
+      </geometry>
+    </collision>
+  </link>
+</robot>
