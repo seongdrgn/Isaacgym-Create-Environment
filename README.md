@@ -27,6 +27,11 @@ Utilize objects in [Google Scanned Objects](https://app.gazebosim.org/GoogleRese
   
   [IssacGym](https://developer.nvidia.com/isaac-gym)
 
+* Run the command to create conda environment in the terminal.
+  ```
+  conda create isaacgym_env python=3.8
+  ```
+
 * After install prerequisites, modify the
   ```ruby
   self.asset_root = "/home/your/asset/root/path"
