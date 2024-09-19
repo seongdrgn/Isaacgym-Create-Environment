@@ -338,11 +338,11 @@ class SimEnv:
 
         # set environment manager
         self.livingroom_env_manager = LivingRoomEnvManager(asset_root=self.asset_root, gym=self.gym, sim=self.sim, device=self.device)
-        self.livingroom_env_manager.set_env("env1")
+        self.livingroom_env_manager.set_env("env2")
         """
         wall_type : ivory, white, green
         """
-        self.livingroom_env_manager.set_wall_type("white")
+        self.livingroom_env_manager.set_wall_type("ivory")
         
         self.create_env()
 

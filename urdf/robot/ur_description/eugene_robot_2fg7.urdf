@@ -206,6 +206,7 @@
     <child link="ee_link"/>
     <origin rpy="0.0 0.0 1.57079632679" xyz="0.0 0.1 0.0"/>
   </joint>
+
   <link name="ee_link">
     <collision>
       <geometry>
@@ -221,7 +222,7 @@
   <joint name="gripper_center_joint" type="fixed">
     <parent link="ee_link"/>
     <child link="gripper_center"/>
-    <origin rpy="0.00000 0.00000 0.00000" xyz="0.1525 0.0 0.0"/>
+    <origin rpy="0.00000 0.00000 0.00000" xyz="0.155 0.0 0.0"/>
   </joint> 
 
   <!-- ====================Attach AllegroHand (right)==================== -->
@@ -252,12 +253,12 @@
       </geometry>
       <material name="grey"/>
     </visual>
-    <collision>
+    <!-- <collision>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
         <mesh filename="meshes/onrobot_2fg7_description/meshes/base_link.stl" scale="0.001 0.001 0.001"/>
       </geometry>
-    </collision>
+    </collision> -->
   </link>
   <link name="right_finger_link">
     <inertial>
@@ -322,17 +323,20 @@
     <implicitSpringDamper>True</implicitSpringDamper>
   </joint>
 
-  <joint name="ur10_leftfinger_ft_sensor_joint" type="fixed">
+  <joint name="ur_leftfinger_ft_sensor_joint" type="fixed">
         <parent link="left_finger_link"/>
-        <child link="ur10_leftfinger_ft_sensor"/>
-        <origin rpy="0 -1.57 0" xyz="0.003247703322119739 0.029496959480080673 0.027234215486237948"/>
+        <child link="ur_leftfinger_ft_sensor"/>
+        <!-- <origin rpy="0 -1.57 0" xyz="0.003147703322119739 0.029496959480080673 0.030234215486237948"/> -->
+        <origin rpy="0 -1.57 0" xyz="0.003847703322119739 0.029496959480080673 0.032234215486237948"/>
+
         <!-- <origin rpy="0 0 0" xyz="0.004247703322119739 0.029496959480080673 0.015234215486237948"/> -->
     </joint>
-    <link name="ur10_leftfinger_ft_sensor">
+    <link name="ur_leftfinger_ft_sensor">
         <visual>
             <origin rpy="0 0 0" xyz="0 0 0"/>
             <geometry>
-                <cylinder radius="0.008" length="0.001"/>
+                <!-- <cylinder radius="0.01" length="0.0005"/> -->
+                <box size="0.01 0.02 0.0005"/>
             </geometry>
             <material name="red">
                 <color rgba="1.0 0.0 0.0 1.0"/>
@@ -341,21 +345,24 @@
         <collision>
             <origin rpy="0 0 0" xyz="0 0 0"/>
             <geometry>
-                <cylinder radius="0.008" length="0.001"/>
+                <box size="0.01 0.02 0.0005"/>
             </geometry>
         </collision>
     </link>
-    <joint name="ur10_rightfinger_ft_sensor_joint" type="fixed">
+    <joint name="ur_rightfinger_ft_sensor_joint" type="fixed">
         <parent link="right_finger_link"/>
-        <child link="ur10_rightfinger_ft_sensor"/>
-        <origin rpy="0 -1.57 0" xyz="0.018874296677847158 0.02949104051991925 0.02723421548622829"/>
+        <child link="ur_rightfinger_ft_sensor"/>
+        <!-- <origin rpy="0 -1.57 0" xyz="0.018774296677847158 0.02949104051991925 0.03023421548622829"/> -->
+        <origin rpy="0 -1.57 0" xyz="0.018274296677847158 0.029496959480080673 0.032234215486237948"/>
+
         <!-- <origin rpy="0 -1.57 0" xyz="0.017874296677847158 0.02949104051991925 0.01523421548622829"/> -->
     </joint>
-    <link name="ur10_rightfinger_ft_sensor">
+    <link name="ur_rightfinger_ft_sensor">
         <visual>
             <origin rpy="0 0 1.57" xyz="0 0 0"/>
             <geometry>
-                <cylinder radius="0.008" length="0.001"/>
+                <!-- <cylinder radius="0.008" length="0.0005"/> -->
+                <box size="0.020 0.01 0.0005"/>
             </geometry>
             <material name="red">
                 <color rgba="1.0 0.0 0.0 1.0"/>
@@ -364,7 +371,7 @@
         <collision>
             <origin rpy="0 0 1.57" xyz="0 0 0"/>
             <geometry>
-                <cylinder radius="0.008" length="0.001"/>
+                <box size="0.020 0.01 0.0005"/>
             </geometry>
         </collision>
     </link>

@@ -298,7 +298,17 @@ class Env2(EnvBase):
     def set_interior_asset(self):
         simple_options = gymapi.AssetOptions()
         simple_options.fix_base_link = True
+
         gravity_options = gymapi.AssetOptions()
+
+        complex_options = gymapi.AssetOptions()
+        complex_options.fix_base_link = True
+        complex_options.vhacd_enabled = True
+        complex_options.vhacd_params = gymapi.VhacdParams()
+        complex_options.vhacd_params.resolution = 1000000
+        complex_options.vhacd_params.max_convex_hulls = 128
+        complex_options.vhacd_params.convex_hull_approximation = True
+
         floor_file = "urdf/floor/wood1.urdf"
         self.floor_asset = self.gym.load_asset(self.sim, self.asset_root, floor_file, simple_options)
         self.floor_pose1 = gymapi.Transform(p=gymapi.Vec3(0.0,0.5,0.01),r=gymapi.Quat(0.7071068, 0, 0, 0.7071068))
@@ -333,9 +343,11 @@ class Env2(EnvBase):
         tv_stand_file = "urdf/living_room/TVStand/model.urdf"
         self.tv_stand_asset = self.gym.load_asset(self.sim, self.asset_root, tv_stand_file, simple_options)
         
-        shelf_file = "urdf/living_room/shelf/model.urdf"
-        self.shelf_asset = self.gym.load_asset(self.sim, self.asset_root, shelf_file, simple_options)
+        shelf_file = "urdf/living_room/shelf/model_wood.urdf"
+        # self.shelf_asset = self.gym.load_asset(self.sim, self.asset_root, shelf_file, simple_options)
         
+        self.complex_shelf_asset = self.gym.load_asset(self.sim, self.asset_root, shelf_file, complex_options)
+
         lamp_file = "urdf/living_room/LampAndStand/model.urdf"
         self.lamp_asset = self.gym.load_asset(self.sim, self.asset_root, lamp_file, simple_options)
 
@@ -492,9 +504,9 @@ class Env2(EnvBase):
         Pepsi_Cola_Wild_Cherry_Diet_actor = self.gym.create_actor(env, self.Pepsi_Cola_Wild_Cherry_Diet_asset, gymapi.Transform(p=gymapi.Vec3(0.24,0.8,0)),'Pepsi_Cola_Wild_Cherry_Diet',num_env,0)
         Pepsi_Cola_Caffeine_Free_actor = self.gym.create_actor(env, self.Pepsi_Cola_Caffeine_Free_asset, gymapi.Transform(p=gymapi.Vec3(0.24,0.8,0.12)),'Pepsi_Cola_Caffeine_Free',num_env,0)
         #shelf_actor4 = self.gym.create_actor(env, self.Bookshelf_asset, gymapi.Transform(r=gymapi.Quat.from_axis_angle(gymapi.Vec3(0.0, 0.0, 1.0), -np.pi/2),p=gymapi.Vec3(3.35,1.35,0.45)),'shelf',num_env,0)
-        shelf_actor = self.gym.create_actor(env, self.shelf_asset, gymapi.Transform(r=gymapi.Quat.from_axis_angle(gymapi.Vec3(0.0, 0.0, 1.0), -np.pi/2),p=gymapi.Vec3(3.35,1.95,0.45)),'shelf',num_env,0)
-        shelf_actor2 = self.gym.create_actor(env, self.shelf_asset, gymapi.Transform(r=gymapi.Quat.from_axis_angle(gymapi.Vec3(0.0, 0.0, 1.0), -np.pi/2),p=gymapi.Vec3(3.25,0.34,0.0)),'shelf2',num_env,0)
-        shelf_actor3 = self.gym.create_actor(env, self.shelf_asset, gymapi.Transform(r=gymapi.Quat.from_axis_angle(gymapi.Vec3(0.0, 0.0, 1.0), -np.pi/2),p=gymapi.Vec3(3.25,0.34,0.69)),'shelf2',num_env,0)
+        shelf_actor = self.gym.create_actor(env, self.complex_shelf_asset, gymapi.Transform(r=gymapi.Quat.from_axis_angle(gymapi.Vec3(0.0, 0.0, 1.0), -np.pi/2),p=gymapi.Vec3(3.35-1,1.95-0.5,0.45)),'shelf',num_env,0)
+        # shelf_actor2 = self.gym.create_actor(env, self.shelf_asset, gymapi.Transform(r=gymapi.Quat.from_axis_angle(gymapi.Vec3(0.0, 0.0, 1.0), -np.pi/2),p=gymapi.Vec3(3.25,0.34,0.0)),'shelf2',num_env,0)
+        # shelf_actor3 = self.gym.create_actor(env, self.shelf_asset, gymapi.Transform(r=gymapi.Quat.from_axis_angle(gymapi.Vec3(0.0, 0.0, 1.0), -np.pi/2),p=gymapi.Vec3(3.25,0.34,0.69)),'shelf2',num_env,0)
         CoQ10_BjTLbuRVt1t_actor = self.gym.create_actor(env, self.CoQ10_BjTLbuRVt1t_asset, gymapi.Transform(r=gymapi.Quat.from_axis_angle(gymapi.Vec3(0.0, 0.0, 1.0), -np.pi/2),p=gymapi.Vec3(3.35,1.75,0.5)),'CoQ10_BjTLbuRVt1t',num_env,0)
         Quercetin_500_actor = self.gym.create_actor(env, self.Quercetin_500_asset, gymapi.Transform(r=gymapi.Quat.from_axis_angle(gymapi.Vec3(0.0, 0.0, 1.0), -np.pi/2),p=gymapi.Vec3(3.35,1.85,0.5)),'Quercetin_500',num_env,0)
         Marc_Anthony_True_Professional_Oil_of_Morocco_Argan_Oil_Treatment_actor = self.gym.create_actor(env, self.Marc_Anthony_True_Professional_Oil_of_Morocco_Argan_Oil_Treatment_asset, gymapi.Transform(r=gymapi.Quat.from_axis_angle(gymapi.Vec3(0.0, 0.0, 1.0), -np.pi/2),p=gymapi.Vec3(3.3,1.75,0.85)),'Marc_Anthony_True_Professional_Oil_of_Morocco_Argan_Oil_Treatment_file',num_env,0)

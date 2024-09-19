@@ -59,7 +59,72 @@ def get_object_positions(num_objects, x_lim, y_lim):
 class Env1(EnvBase):
     def set_robot_asset(self):
         # config UR5e asset
-        print("set robot asset")
+        ur_asset_file = "urdf/robot/rg2ft_gripper/eugene_robot_rg2ft.urdf"
+        #ur_asset_file = "urdf/robot/ur_description/eugene_robot_2fg7.urdf"
+        ur_asset_options = gymapi.AssetOptions()
+        ur_asset_options.armature = 0.01
+        ur_asset_options.fix_base_link = True
+        ur_asset_options.disable_gravity = True
+        ur_asset_options.flip_visual_attachments = False
+        ur_asset_options.mesh_normal_mode = gymapi.COMPUTE_PER_FACE
+        ur_asset_options.vhacd_enabled = True
+        ur_asset_options.vhacd_params = gymapi.VhacdParams()
+        ur_asset_options.vhacd_params.resolution = 300000
+        ur_asset_options.vhacd_params.max_convex_hulls = 512
+        ur_asset_options.vhacd_params.convex_hull_approximation = False
+
+        self.ur_asset = self.gym.load_asset(self.sim, self.asset_root, ur_asset_file, ur_asset_options)
+
+        # config UR5e dofs
+        self.ur_dof_props = self.gym.get_asset_dof_properties(self.ur_asset)
+        # ur_lower_limits = self.ur_dof_props["lower"]
+        # ur_upper_limits = self.ur_dof_props["upper"]
+        # ur_ranges = ur_upper_limits - ur_lower_limits
+
+        self.num_ur_dofs = self.gym.get_asset_dof_count(self.ur_asset)
+
+        self.ur_dof_props["driveMode"][:6].fill(gymapi.DOF_MODE_EFFORT)
+        self.ur_dof_props["stiffness"][:6].fill(0)
+        self.ur_dof_props["damping"][:6].fill(0)
+
+        self.ur_dof_props["driveMode"][6:].fill(gymapi.DOF_MODE_POS)
+        self.ur_dof_props["stiffness"][6:].fill(800)
+        self.ur_dof_props["damping"][6:].fill(40)
+
+        print("[INFO] Number of DOFs: ", self.num_ur_dofs)
+
+        self.default_dof_pos = np.zeros(self.num_ur_dofs, dtype=np.float32)
+        self.default_dof_pos[:6] = np.array([-np.pi/6, -np.pi/4*3, np.pi/2, -np.pi/2, -np.pi/2, 0])
+        self.default_dof_pos[6:]=np.array([0.0, 0.0, 0.0, 0.0, 0.0, 0.0])
+        #self.default_dof_pos[6:] = np.array([0.0, 0.0])
+
+        self.default_dof_state = np.zeros(self.num_ur_dofs, gymapi.DofState.dtype)
+        self.default_dof_state["pos"] = self.default_dof_pos
+
+        self.default_dof_pos_tensor = to_torch(self.default_dof_pos, device=self.device)
+
+        ur_link_dict = self.gym.get_asset_rigid_body_dict(self.ur_asset)
+        self.ur_gripper_index = ur_link_dict["ee_link"]
+
+        self.gripper_center_index=ur_link_dict["gripper_center"]
+
+        self.ur_pose = gymapi.Transform()
+        self.ur_pose.p = gymapi.Vec3(1.7, 1.3, 0.5)
+
+        # add F/T sensor
+        body_idx = self.gym.find_asset_rigid_body_index(self.ur_asset, "ee_link")
+        sensor_pose = gymapi.Transform(gymapi.Vec3(0,0,0))
+        sensor_props = gymapi.ForceSensorProperties()
+        sensor_props.enable_forward_dynamics_forces = True
+        sensor_props.enable_constraint_solver_forces = True
+        sensor_props.use_world_frame = True
+        self.gym.create_asset_force_sensor(self.ur_asset, body_idx, sensor_pose, sensor_props)
+
+        robot_base_options = gymapi.AssetOptions()
+        robot_base_options.fix_base_link = True
+        self.robot_base_asset = self.gym.create_box(self.sim, 0.3, 0.3, 0.5, robot_base_options)
+        self.robot_base_pose = gymapi.Transform(p=gymapi.Vec3(1.7,1.3,0.25))
+        print("Configured robot asset : ", ur_asset_file)
 
     def set_wall_type(self, wall_type):
         if wall_type == "ivory":
@@ -77,9 +142,9 @@ class Env1(EnvBase):
         complex_options.fix_base_link = True
         complex_options.vhacd_enabled = True
         complex_options.vhacd_params = gymapi.VhacdParams()
-        complex_options.vhacd_params.resolution = 3000000
-        complex_options.vhacd_params.max_convex_hulls = 512
-        complex_options.vhacd_params.convex_hull_approximation = False
+        complex_options.vhacd_params.resolution = 1000000
+        complex_options.vhacd_params.max_convex_hulls = 128
+        complex_options.vhacd_params.convex_hull_approximation = True
 
         gravity_options = gymapi.AssetOptions()
 
@@ -236,8 +301,16 @@ class Env1(EnvBase):
     def set_object_asset(self):
         object_options = gymapi.AssetOptions()
 
+        complex_options = gymapi.AssetOptions()
+        complex_options.fix_base_link = True
+        complex_options.vhacd_enabled = True
+        complex_options.vhacd_params = gymapi.VhacdParams()
+        complex_options.vhacd_params.resolution = 1000000
+        complex_options.vhacd_params.max_convex_hulls = 128
+        complex_options.vhacd_params.convex_hull_approximation = True
+
         bowl_file = "urdf/ycb/024_bowl/model.urdf"
-        self.bowl_asset = self.gym.load_asset(self.sim, self.asset_root, bowl_file, object_options)
+        self.bowl_asset = self.gym.load_asset(self.sim, self.asset_root, bowl_file, complex_options)
         self.bowl_pose = gymapi.Transform(p=gymapi.Vec3(2.1, 1.4, 0.825))
 
         lemon_file = "urdf/ycb/014_lemon/model.urdf"
@@ -258,7 +331,12 @@ class Env1(EnvBase):
 
         print("object asset is set")
 
+    def create_target(self, env, num_env):
+        self.target_handle=self.gym.create_actor(env, self.peach_asset, self.peach_pose, "peach", num_env, 0)
+
     def create_robot(self, env, num_env):
+        self.ur_handle = self.gym.create_actor(env, self.ur_asset, self.ur_pose, "ur", num_env, 2)
+        self.gym.create_actor(env, self.robot_base_asset, self.robot_base_pose, "robot_base", num_env, 0)
         print("robot is created")
 
     def create_assets(self, env, num_env):
@@ -297,7 +375,6 @@ class Env1(EnvBase):
 
         bowl_handle = self.gym.create_actor(env, self.bowl_asset, self.bowl_pose, "bowl", num_env, 0)
         lemon_handle = self.gym.create_actor(env, self.lemon_asset, self.lemon_pose, "lemon", num_env, 0)
-        peach_handle = self.gym.create_actor(env, self.peach_asset, self.peach_pose, "peach", num_env, 0)
         orange_handle = self.gym.create_actor(env, self.orange_asset, self.orange_pose, "orange", num_env, 0)
         mug_handle = self.gym.create_actor(env, self.mug_asset, self.mug_pose, "mug", num_env, 0)
         gelatin_box_handle = self.gym.create_actor(env, self.gelatin_box_asset, self.gelatin_box_pose, "gelatin_box", num_env, 0)
@@ -323,11 +400,12 @@ class Env1(EnvBase):
 class Env2(EnvBase):
     def set_robot_asset(self):
         # config UR5e asset
-        ur_asset_file = "urdf/robot/ur_description/kimsy_ur5e_2fg7_small_gap.urdf"
+        ur_asset_file = "urdf/robot/rg2ft_gripper/eugene_robot_rg2ft.urdf"
+        #ur_asset_file = "urdf/robot/ur_description/eugene_robot_2fg7.urdf"
         ur_asset_options = gymapi.AssetOptions()
         ur_asset_options.armature = 0.01
         ur_asset_options.fix_base_link = True
-        ur_asset_options.disable_gravity = False
+        ur_asset_options.disable_gravity = True
         ur_asset_options.flip_visual_attachments = False
         ur_asset_options.mesh_normal_mode = gymapi.COMPUTE_PER_FACE
         ur_asset_options.vhacd_enabled = True
@@ -340,29 +418,26 @@ class Env2(EnvBase):
 
         # config UR5e dofs
         self.ur_dof_props = self.gym.get_asset_dof_properties(self.ur_asset)
-        ur_lower_limits = self.ur_dof_props["lower"]
-        ur_upper_limits = self.ur_dof_props["upper"]
-        ur_ranges = ur_upper_limits - ur_lower_limits
+        # ur_lower_limits = self.ur_dof_props["lower"]
+        # ur_upper_limits = self.ur_dof_props["upper"]
+        # ur_ranges = ur_upper_limits - ur_lower_limits
 
         self.num_ur_dofs = self.gym.get_asset_dof_count(self.ur_asset)
 
-        stiffness = [400, 400, 400, 400, 400, 400]
-        dampings = [40, 40, 40, 40, 40, 40]
-
-        for i in range(6):
-            self.ur_dof_props["driveMode"][i] = gymapi.DOF_MODE_EFFORT
-            self.ur_dof_props["stiffness"][i] = stiffness[i]
-            self.ur_dof_props["damping"][i] = dampings[i]
+        self.ur_dof_props["driveMode"][:6].fill(gymapi.DOF_MODE_EFFORT)
+        self.ur_dof_props["stiffness"][:6].fill(0)
+        self.ur_dof_props["damping"][:6].fill(0)
 
         self.ur_dof_props["driveMode"][6:].fill(gymapi.DOF_MODE_POS)
-        self.ur_dof_props["stiffness"][6:].fill(1)
-        self.ur_dof_props["damping"][6:].fill(1)
+        self.ur_dof_props["stiffness"][6:].fill(800)
+        self.ur_dof_props["damping"][6:].fill(40)
 
         print("[INFO] Number of DOFs: ", self.num_ur_dofs)
 
         self.default_dof_pos = np.zeros(self.num_ur_dofs, dtype=np.float32)
-        self.default_dof_pos[:6] = np.array([0.0, -np.pi/4*3, np.pi/2, -np.pi/2, -np.pi/2, 0])
-        self.default_dof_pos[6:] = np.array([0.0, 0.0])
+        self.default_dof_pos[:6] = np.array([-np.pi/6, -np.pi/4*3, np.pi/2, -np.pi/2, -np.pi/2, 0])
+        self.default_dof_pos[6:]=np.array([0.0, 0.0, 0.0, 0.0, 0.0, 0.0])
+        #self.default_dof_pos[6:] = np.array([0.0, 0.0])
 
         self.default_dof_state = np.zeros(self.num_ur_dofs, gymapi.DofState.dtype)
         self.default_dof_state["pos"] = self.default_dof_pos
@@ -372,8 +447,10 @@ class Env2(EnvBase):
         ur_link_dict = self.gym.get_asset_rigid_body_dict(self.ur_asset)
         self.ur_gripper_index = ur_link_dict["ee_link"]
 
+        self.gripper_center_index=ur_link_dict["gripper_center"]
+
         self.ur_pose = gymapi.Transform()
-        self.ur_pose.p = gymapi.Vec3(1.75, 1.75, 0.5)
+        self.ur_pose.p = gymapi.Vec3(1.7, 1.3, 0.5)
 
         # add F/T sensor
         body_idx = self.gym.find_asset_rigid_body_index(self.ur_asset, "ee_link")
@@ -386,8 +463,9 @@ class Env2(EnvBase):
 
         robot_base_options = gymapi.AssetOptions()
         robot_base_options.fix_base_link = True
-        self.robot_base_asset = self.gym.create_box(self.sim, 0.5, 0.5, 0.5, robot_base_options)
-        self.robot_base_pose = gymapi.Transform(p=gymapi.Vec3(1.75,1.75,0.25))
+        self.robot_base_asset = self.gym.create_box(self.sim, 0.3, 0.3, 0.5, robot_base_options)
+        self.robot_base_pose = gymapi.Transform(p=gymapi.Vec3(1.7,1.3,0.25))
+        print("Configured robot asset : ", ur_asset_file)
 
     def set_wall_type(self, wall_type):
         if wall_type == "ivory":
@@ -547,7 +625,12 @@ class Env2(EnvBase):
         print("object asset is set")
     
     def create_robot(self, env, num_env):
+        self.ur_handle = self.gym.create_actor(env, self.ur_asset, self.ur_pose, "ur", num_env, 2)
+        self.gym.create_actor(env, self.robot_base_asset, self.robot_base_pose, "robot_base", num_env, 0)
         print("robot is created")
+
+    def create_target(self, env, num_env):
+        print("target is created")
 
     def create_assets(self, env, num_env):
         self.gym.create_actor(env, self.floor_asset, self.floor_pose1, "floor", num_env, 0)
@@ -604,7 +687,72 @@ class Env2(EnvBase):
 class Env3(EnvBase):
     def set_robot_asset(self):
         # config UR5e asset
-        print("robot asset is set")
+        ur_asset_file = "urdf/robot/rg2ft_gripper/eugene_robot_rg2ft.urdf"
+        #ur_asset_file = "urdf/robot/ur_description/eugene_robot_2fg7.urdf"
+        ur_asset_options = gymapi.AssetOptions()
+        ur_asset_options.armature = 0.01
+        ur_asset_options.fix_base_link = True
+        ur_asset_options.disable_gravity = True
+        ur_asset_options.flip_visual_attachments = False
+        ur_asset_options.mesh_normal_mode = gymapi.COMPUTE_PER_FACE
+        ur_asset_options.vhacd_enabled = True
+        ur_asset_options.vhacd_params = gymapi.VhacdParams()
+        ur_asset_options.vhacd_params.resolution = 300000
+        ur_asset_options.vhacd_params.max_convex_hulls = 512
+        ur_asset_options.vhacd_params.convex_hull_approximation = False
+
+        self.ur_asset = self.gym.load_asset(self.sim, self.asset_root, ur_asset_file, ur_asset_options)
+
+        # config UR5e dofs
+        self.ur_dof_props = self.gym.get_asset_dof_properties(self.ur_asset)
+        # ur_lower_limits = self.ur_dof_props["lower"]
+        # ur_upper_limits = self.ur_dof_props["upper"]
+        # ur_ranges = ur_upper_limits - ur_lower_limits
+
+        self.num_ur_dofs = self.gym.get_asset_dof_count(self.ur_asset)
+
+        self.ur_dof_props["driveMode"][:6].fill(gymapi.DOF_MODE_EFFORT)
+        self.ur_dof_props["stiffness"][:6].fill(0)
+        self.ur_dof_props["damping"][:6].fill(0)
+
+        self.ur_dof_props["driveMode"][6:].fill(gymapi.DOF_MODE_POS)
+        self.ur_dof_props["stiffness"][6:].fill(800)
+        self.ur_dof_props["damping"][6:].fill(40)
+
+        print("[INFO] Number of DOFs: ", self.num_ur_dofs)
+
+        self.default_dof_pos = np.zeros(self.num_ur_dofs, dtype=np.float32)
+        self.default_dof_pos[:6] = np.array([-np.pi/6, -np.pi/4*3, np.pi/2, -np.pi/2, -np.pi/2, 0])
+        self.default_dof_pos[6:]=np.array([0.0, 0.0, 0.0, 0.0, 0.0, 0.0])
+        #self.default_dof_pos[6:] = np.array([0.0, 0.0])
+
+        self.default_dof_state = np.zeros(self.num_ur_dofs, gymapi.DofState.dtype)
+        self.default_dof_state["pos"] = self.default_dof_pos
+
+        self.default_dof_pos_tensor = to_torch(self.default_dof_pos, device=self.device)
+
+        ur_link_dict = self.gym.get_asset_rigid_body_dict(self.ur_asset)
+        self.ur_gripper_index = ur_link_dict["ee_link"]
+
+        self.gripper_center_index=ur_link_dict["gripper_center"]
+
+        self.ur_pose = gymapi.Transform()
+        self.ur_pose.p = gymapi.Vec3(1.7, 1.3, 0.5)
+
+        # add F/T sensor
+        body_idx = self.gym.find_asset_rigid_body_index(self.ur_asset, "ee_link")
+        sensor_pose = gymapi.Transform(gymapi.Vec3(0,0,0))
+        sensor_props = gymapi.ForceSensorProperties()
+        sensor_props.enable_forward_dynamics_forces = True
+        sensor_props.enable_constraint_solver_forces = True
+        sensor_props.use_world_frame = True
+        self.gym.create_asset_force_sensor(self.ur_asset, body_idx, sensor_pose, sensor_props)
+
+        robot_base_options = gymapi.AssetOptions()
+        robot_base_options.fix_base_link = True
+        self.robot_base_asset = self.gym.create_box(self.sim, 0.3, 0.3, 0.5, robot_base_options)
+        self.robot_base_pose = gymapi.Transform(p=gymapi.Vec3(1.7,1.3,0.25))
+        print("Configured robot asset : ", ur_asset_file)
 
     def set_wall_type(self, wall_type):
         if wall_type == "ivory":
@@ -790,7 +938,12 @@ class Env3(EnvBase):
         print("object asset is set")
     
     def create_robot(self, env, num_env):
+        self.ur_handle = self.gym.create_actor(env, self.ur_asset, self.ur_pose, "ur", num_env, 2)
+        self.gym.create_actor(env, self.robot_base_asset, self.robot_base_pose, "robot_base", num_env, 0)
         print("robot is created")
+
+    def create_target(self, env, num_env):
+        print("target is created")
 
     def create_assets(self, env, num_env):
         self.gym.create_actor(env, self.floor_asset, self.floor_pose1, "floor", num_env, 0)
@@ -858,7 +1011,72 @@ class Env3(EnvBase):
 class Env4(EnvBase):
     def set_robot_asset(self):
         # config UR5e asset
-        print("robot asset is set")
+        ur_asset_file = "urdf/robot/rg2ft_gripper/eugene_robot_rg2ft.urdf"
+        #ur_asset_file = "urdf/robot/ur_description/eugene_robot_2fg7.urdf"
+        ur_asset_options = gymapi.AssetOptions()
+        ur_asset_options.armature = 0.01
+        ur_asset_options.fix_base_link = True
+        ur_asset_options.disable_gravity = True
+        ur_asset_options.flip_visual_attachments = False
+        ur_asset_options.mesh_normal_mode = gymapi.COMPUTE_PER_FACE
+        ur_asset_options.vhacd_enabled = True
+        ur_asset_options.vhacd_params = gymapi.VhacdParams()
+        ur_asset_options.vhacd_params.resolution = 300000
+        ur_asset_options.vhacd_params.max_convex_hulls = 512
+        ur_asset_options.vhacd_params.convex_hull_approximation = False
+
+        self.ur_asset = self.gym.load_asset(self.sim, self.asset_root, ur_asset_file, ur_asset_options)
+
+        # config UR5e dofs
+        self.ur_dof_props = self.gym.get_asset_dof_properties(self.ur_asset)
+        # ur_lower_limits = self.ur_dof_props["lower"]
+        # ur_upper_limits = self.ur_dof_props["upper"]
+        # ur_ranges = ur_upper_limits - ur_lower_limits
+
+        self.num_ur_dofs = self.gym.get_asset_dof_count(self.ur_asset)
+
+        self.ur_dof_props["driveMode"][:6].fill(gymapi.DOF_MODE_EFFORT)
+        self.ur_dof_props["stiffness"][:6].fill(0)
+        self.ur_dof_props["damping"][:6].fill(0)
+
+        self.ur_dof_props["driveMode"][6:].fill(gymapi.DOF_MODE_POS)
+        self.ur_dof_props["stiffness"][6:].fill(800)
+        self.ur_dof_props["damping"][6:].fill(40)
+
+        print("[INFO] Number of DOFs: ", self.num_ur_dofs)
+
+        self.default_dof_pos = np.zeros(self.num_ur_dofs, dtype=np.float32)
+        self.default_dof_pos[:6] = np.array([-np.pi/6, -np.pi/4*3, np.pi/2, -np.pi/2, -np.pi/2, 0])
+        self.default_dof_pos[6:]=np.array([0.0, 0.0, 0.0, 0.0, 0.0, 0.0])
+        #self.default_dof_pos[6:] = np.array([0.0, 0.0])
+
+        self.default_dof_state = np.zeros(self.num_ur_dofs, gymapi.DofState.dtype)
+        self.default_dof_state["pos"] = self.default_dof_pos
+
+        self.default_dof_pos_tensor = to_torch(self.default_dof_pos, device=self.device)
+
+        ur_link_dict = self.gym.get_asset_rigid_body_dict(self.ur_asset)
+        self.ur_gripper_index = ur_link_dict["ee_link"]
+
+        self.gripper_center_index=ur_link_dict["gripper_center"]
+
+        self.ur_pose = gymapi.Transform()
+        self.ur_pose.p = gymapi.Vec3(1.7, 1.3, 0.5)
+
+        # add F/T sensor
+        body_idx = self.gym.find_asset_rigid_body_index(self.ur_asset, "ee_link")
+        sensor_pose = gymapi.Transform(gymapi.Vec3(0,0,0))
+        sensor_props = gymapi.ForceSensorProperties()
+        sensor_props.enable_forward_dynamics_forces = True
+        sensor_props.enable_constraint_solver_forces = True
+        sensor_props.use_world_frame = True
+        self.gym.create_asset_force_sensor(self.ur_asset, body_idx, sensor_pose, sensor_props)
+
+        robot_base_options = gymapi.AssetOptions()
+        robot_base_options.fix_base_link = True
+        self.robot_base_asset = self.gym.create_box(self.sim, 0.3, 0.3, 0.5, robot_base_options)
+        self.robot_base_pose = gymapi.Transform(p=gymapi.Vec3(1.7,1.3,0.25))
+        print("Configured robot asset : ", ur_asset_file)
 
     def set_wall_type(self, wall_type):
         if wall_type == "ivory":
@@ -873,6 +1091,14 @@ class Env4(EnvBase):
         simple_options.fix_base_link = True
 
         gravity_options = gymapi.AssetOptions()
+
+        complex_options = gymapi.AssetOptions()
+        complex_options.fix_base_link = True
+        complex_options.vhacd_enabled = True
+        complex_options.vhacd_params = gymapi.VhacdParams()
+        complex_options.vhacd_params.resolution = 1000000
+        complex_options.vhacd_params.max_convex_hulls = 128
+        complex_options.vhacd_params.convex_hull_approximation = True
 
         floor_file = "urdf/floor/wood2.urdf"
         self.floor_asset = self.gym.load_asset(self.sim, self.asset_root, floor_file, simple_options)
@@ -908,14 +1134,7 @@ class Env4(EnvBase):
         self.fridge_pose = gymapi.Transform(p=gymapi.Vec3(3.45,0.1,0.0), r=gymapi.Quat(0, 0.7071068, 0.7071068, 0))
 
         kitchen_cabinet_file = "urdf/kitchen/KitchenCabinet/model.urdf"
-        kitchen_cabinet_file_options = gymapi.AssetOptions()
-        kitchen_cabinet_file_options.fix_base_link = True
-        kitchen_cabinet_file_options.vhacd_enabled = True
-        kitchen_cabinet_file_options.vhacd_params = gymapi.VhacdParams()
-        kitchen_cabinet_file_options.vhacd_params.resolution = 300000
-        kitchen_cabinet_file_options.vhacd_params.max_convex_hulls = 512
-        kitchen_cabinet_file_options.vhacd_params.convex_hull_approximation = False
-        self.kitchen_cabinet_file_asset = self.gym.load_asset(self.sim, self.asset_root, kitchen_cabinet_file, kitchen_cabinet_file_options)
+        self.kitchen_cabinet_file_asset = self.gym.load_asset(self.sim, self.asset_root, kitchen_cabinet_file, complex_options)
         self.kitchen_cabinet_file_pose = gymapi.Transform(p=gymapi.Vec3(1.37,1.35,0.0), r=gymapi.Quat.from_axis_angle(gymapi.Vec3(1.0, 0.0, 0.0), np.pi/2))
 
         utensil_file = "urdf/kitchen/KitchenUtensils/model.urdf"
@@ -1071,7 +1290,12 @@ class Env4(EnvBase):
         print("object asset is set")
 
     def create_robot(self, env, num_env):
+        self.ur_handle = self.gym.create_actor(env, self.ur_asset, self.ur_pose, "ur", num_env, 2)
+        self.gym.create_actor(env, self.robot_base_asset, self.robot_base_pose, "robot_base", num_env, 0)
         print("robot is created")
+
+    def create_target(self, env, num_env):
+        print("target is created")
 
     def create_assets(self, env, num_env):
         self.gym.create_actor(env, self.floor_asset, self.floor_pose1, "floor", num_env, 0)
@@ -1150,7 +1374,72 @@ class Env4(EnvBase):
 class Env5(EnvBase):
     def set_robot_asset(self):
         # config UR5e asset
-        print("robot asset is set")
+        ur_asset_file = "urdf/robot/rg2ft_gripper/eugene_robot_rg2ft.urdf"
+        #ur_asset_file = "urdf/robot/ur_description/eugene_robot_2fg7.urdf"
+        ur_asset_options = gymapi.AssetOptions()
+        ur_asset_options.armature = 0.01
+        ur_asset_options.fix_base_link = True
+        ur_asset_options.disable_gravity = True
+        ur_asset_options.flip_visual_attachments = False
+        ur_asset_options.mesh_normal_mode = gymapi.COMPUTE_PER_FACE
+        ur_asset_options.vhacd_enabled = True
+        ur_asset_options.vhacd_params = gymapi.VhacdParams()
+        ur_asset_options.vhacd_params.resolution = 300000
+        ur_asset_options.vhacd_params.max_convex_hulls = 512
+        ur_asset_options.vhacd_params.convex_hull_approximation = False
+
+        self.ur_asset = self.gym.load_asset(self.sim, self.asset_root, ur_asset_file, ur_asset_options)
+
+        # config UR5e dofs
+        self.ur_dof_props = self.gym.get_asset_dof_properties(self.ur_asset)
+        # ur_lower_limits = self.ur_dof_props["lower"]
+        # ur_upper_limits = self.ur_dof_props["upper"]
+        # ur_ranges = ur_upper_limits - ur_lower_limits
+
+        self.num_ur_dofs = self.gym.get_asset_dof_count(self.ur_asset)
+
+        self.ur_dof_props["driveMode"][:6].fill(gymapi.DOF_MODE_EFFORT)
+        self.ur_dof_props["stiffness"][:6].fill(0)
+        self.ur_dof_props["damping"][:6].fill(0)
+
+        self.ur_dof_props["driveMode"][6:].fill(gymapi.DOF_MODE_POS)
+        self.ur_dof_props["stiffness"][6:].fill(800)
+        self.ur_dof_props["damping"][6:].fill(40)
+
+        print("[INFO] Number of DOFs: ", self.num_ur_dofs)
+
+        self.default_dof_pos = np.zeros(self.num_ur_dofs, dtype=np.float32)
+        self.default_dof_pos[:6] = np.array([-np.pi/6, -np.pi/4*3, np.pi/2, -np.pi/2, -np.pi/2, 0])
+        self.default_dof_pos[6:]=np.array([0.0, 0.0, 0.0, 0.0, 0.0, 0.0])
+        #self.default_dof_pos[6:] = np.array([0.0, 0.0])
+
+        self.default_dof_state = np.zeros(self.num_ur_dofs, gymapi.DofState.dtype)
+        self.default_dof_state["pos"] = self.default_dof_pos
+
+        self.default_dof_pos_tensor = to_torch(self.default_dof_pos, device=self.device)
+
+        ur_link_dict = self.gym.get_asset_rigid_body_dict(self.ur_asset)
+        self.ur_gripper_index = ur_link_dict["ee_link"]
+
+        self.gripper_center_index=ur_link_dict["gripper_center"]
+
+        self.ur_pose = gymapi.Transform()
+        self.ur_pose.p = gymapi.Vec3(1.7, 1.3, 0.5)
+
+        # add F/T sensor
+        body_idx = self.gym.find_asset_rigid_body_index(self.ur_asset, "ee_link")
+        sensor_pose = gymapi.Transform(gymapi.Vec3(0,0,0))
+        sensor_props = gymapi.ForceSensorProperties()
+        sensor_props.enable_forward_dynamics_forces = True
+        sensor_props.enable_constraint_solver_forces = True
+        sensor_props.use_world_frame = True
+        self.gym.create_asset_force_sensor(self.ur_asset, body_idx, sensor_pose, sensor_props)
+
+        robot_base_options = gymapi.AssetOptions()
+        robot_base_options.fix_base_link = True
+        self.robot_base_asset = self.gym.create_box(self.sim, 0.3, 0.3, 0.5, robot_base_options)
+        self.robot_base_pose = gymapi.Transform(p=gymapi.Vec3(1.7,1.3,0.25))
+        print("Configured robot asset : ", ur_asset_file)
 
     def set_wall_type(self, wall_type):
         if wall_type == "ivory":
@@ -1322,7 +1611,12 @@ class Env5(EnvBase):
         print("object asset is set")
 
     def create_robot(self, env, num_env):
+        self.ur_handle = self.gym.create_actor(env, self.ur_asset, self.ur_pose, "ur", num_env, 2)
+        self.gym.create_actor(env, self.robot_base_asset, self.robot_base_pose, "robot_base", num_env, 0)
         print("robot is created")
+
+    def create_target(self, env, num_env):
+        print("target is created")
 
     def create_assets(self, env, num_env):
         self.gym.create_actor(env, self.floor_asset, self.floor_pose1, "floor", num_env, 0)
@@ -1419,6 +1713,9 @@ class KitchenEnvManager:
 
     def create_current_robot(self, env, num_env):
         self.current_env.create_robot(env, num_env)
+    
+    def create_current_target(self, env, num_env):
+        self.current_env.create_target(env, num_env)
 
     def create_current_assets(self, env, num_env):
         self.current_env.create_assets(env, num_env)
