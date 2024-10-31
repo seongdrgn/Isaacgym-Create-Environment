@@ -38,6 +38,12 @@ Utilize objects in [Google Scanned Objects](https://app.gazebosim.org/GoogleRese
   ```
    in each ```run_demo.py```files.
 
+* Run the command to visualize environment using IsaacGym
+  ```
+  python run_demo_{room_concept}.py
+  ```
+  change ```{room_concept}``` to visualize other rooms (kitchen, office, livingroom)
+
 ## Domain Transformation
 
 For changing interior of the environment, edit below code in ```run_demo_kitchen.py``` file.
