@@ -106,9 +106,8 @@ python run_demo_livingroom.py
 
 
 ## Troubleshooting
-
-For Anaconda Users
-
+### Library path issue
+For anaconda3 users,
 ```
 export LD_LIBRARY_PATH=/home/user_name/anaconda3/envs/your_env/lib
 ```
